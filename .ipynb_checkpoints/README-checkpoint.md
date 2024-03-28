@@ -9,8 +9,10 @@
 
 
 1: Clustering
+
 python clustering.py --cluster_num 100
 
 
 2: Query KNN
+
 python query_knn.py --top_k 20
