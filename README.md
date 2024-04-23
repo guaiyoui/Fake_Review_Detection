@@ -20,13 +20,21 @@ python query_knn.py --top_k 20
 
 3: Sentiment Analysis
 
+
 download the repo and the pre-trained data
 
+```
 git clone https://github.com/guaiyoui/Review_Clustering.git
+
 cd Review_Clustering
+
 export HF_ENDPOINT=https://hf-mirror.com
+
 huggingface-cli download --token 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 --resume-download IDEA-CCNL/Erlangshen-Roberta-330M-Sentiment --local-dir sentiment_model
+```
 
+run the code
 
-
-
+```
+python sentiment_analysis_hf.py
+```
