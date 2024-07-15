@@ -8,8 +8,8 @@ import numpy as np
 class GCN(torch.nn.Module):
     def __init__(self, num_features, num_classes):
         super(GCN, self).__init__()
-        self.conv1 = GCNConv(num_features, 16)
-        self.conv2 = GCNConv(16, num_classes)
+        self.conv1 = GCNConv(num_features, 32)
+        self.conv2 = GCNConv(32, num_classes)
 
     def forward(self, x, edge_index):
         x = self.conv1(x, edge_index)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         elif pred[testing_data[i, 0]]==0 and y[testing_data[i, 0]]==1:
             fn += 1
         elif pred[testing_data[i, 0]]==1 and y[testing_data[i, 0]]==0:
-            tp += 1
+            fp += 1
         elif pred[testing_data[i, 0]]==0 and y[testing_data[i, 0]]==0:
             tn += 1
         else:
