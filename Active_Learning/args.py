@@ -46,6 +46,8 @@ def get_citation_args():
     parser.add_argument('--lambdaa', type=float, default=0.99,
                         help='control combination')
 
+    parser.add_argument('--data_path', type=str, default='../Spammer-ISR-Initial-Exp/ISR-spammer-detection/Data/', help='query strategy')
+
 
     args, _ = parser.parse_known_args()
     args.cuda = not args.no_cuda and torch.cuda.is_available()

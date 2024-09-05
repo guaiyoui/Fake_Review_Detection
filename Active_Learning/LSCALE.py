@@ -7,7 +7,7 @@ import torch.optim as optim
 from utils import load_citation_multi_steps, early_stopping, remove_nodes_from_walks, sgc_precompute, \
     get_classes_statistic, load_reddit_data, load_Amazon, load_coauthor
 from models import get_model, DGI
-from metrics import accuracy, f1
+from metrics import accuracy, f1, f1_my
 import pickle as pkl
 from args import get_citation_args
 from time import perf_counter
@@ -15,6 +15,8 @@ from sampling_methods import *
 import os
 import datetime
 import json
+from community import community_louvain
+import pandas as pd
 
 # Arguments
 args = get_citation_args()
@@ -68,7 +70,9 @@ def train_regression(model,
         acc_val = accuracy(output, val_labels)
         micro_val, macro_val = f1(output, val_labels)
         print('acc_val: {}'.format(acc_val))
-    return model, acc_val, micro_val, macro_val, train_time
+        f1_val, recall_val, precision_val = f1_my(output, val_labels)
+        print('f1_val_my: {}'.format(f1_val))
+    return model, acc_val, micro_val, macro_val, train_time, f1_val, recall_val, precision_val
 
 
 def test_regression(model, test_features, test_labels):
@@ -76,7 +80,10 @@ def test_regression(model, test_features, test_labels):
     output = model(test_features)
     acc_test = accuracy(output, test_labels)
     micro_test, macro_test = f1(output, test_labels)
-    return acc_test, micro_test, macro_test
+
+    f1_test, recall_test, precision_test = f1_my(output, test_labels)
+
+    return acc_test, micro_test, macro_test, f1_test, recall_test, precision_test
 
 
 def print_time_ratio(name, time1, train_time):
@@ -105,10 +112,90 @@ def ensure_nonrepeat(idx_train, selected_nodes):
                 'In this iteration, the node {} need to be labelled is already in selected_nodes'.format(node))
     return
 
+def augment_feature(feature, nx_G):
+    print("===== 1. The modularity-based feature augmentation. =====")
+    partition = community_louvain.best_partition(nx_G)
+    modularity = community_louvain.modularity(partition, nx_G)
+    print(f"the modularity of community is {modularity}")
+    # 创建一个字典存储每个社区的modularity值
+    node_modularity = {}
+    for community in set(partition.values()):
+            # 取出该社区的节点
+        nodes_in_community = [node for node, comm in partition.items() if comm == community]
+        # 计算该社区在整体中的modularity贡献
+        subgraph = nx_G.subgraph(nodes_in_community)
+        # print(subgraph)
+        community_partition = {node: community for node in nodes_in_community}
+        community_modularity = community_louvain.modularity({**partition, **community_partition}, nx_G)
+        # 分配给该社区中的每个节点
+        for node in nodes_in_community:
+            node_modularity[node] = community_modularity
+    
+    augmented_mod_feat = []
+    for i in range(feature.shape[0]):
+        if i in node_modularity:
+            augmented_mod_feat.append(node_modularity[i])
+        else:
+            augmented_mod_feat.append(0)
+    # kcore based 
+
+    augmented_core_feat = []
+    print("===== 2. The k-core-based feature augmentation. =====")
+    # Calculate k-core values for each node
+    core_numbers = nx.core_number(nx_G)
+    for i in range(feature.shape[0]):
+        if i in core_numbers:
+            augmented_core_feat.append(core_numbers[i])
+        else:
+            augmented_core_feat.append(0)
+    
+    # print(augmented_core_feat)
+    result = np.column_stack((feature, np.array(augmented_mod_feat), np.array(augmented_core_feat)))
+
+    return result
 
 class run_wrapper():
     def __init__(self, dataset, normalization, cuda):
-        if dataset in ['Computers', 'Photo']:
+        if dataset in ['spammer', 'amazon', 'yelp']:
+
+            self.graph = None
+            graph_data = np.loadtxt(args.data_path+"J01Network.txt", delimiter=' ', dtype=int)
+            graph_data[:,0] = graph_data[:,0] - 1
+            graph_data[:,1] = graph_data[:,1] - 1
+            self.nx_G = nx.Graph()
+            self.nx_G.add_edges_from(graph_data)
+            
+            edge_tensor = torch.from_numpy(graph_data).long()
+            indices = edge_tensor.t().contiguous()
+            num_edges = edge_tensor.shape[0]
+            values = torch.ones(num_edges)
+            num_nodes = edge_tensor.max().item() + 1
+            adj = torch.sparse_coo_tensor(indices, values, size=(num_nodes, num_nodes))
+            adj = adj.coalesce()
+            adj = adj.to('cuda:0')
+            row_sum = torch.sparse.sum(adj, dim=1).to_dense()
+            row_sum[row_sum == 0] = 1  # 避免除以零
+            values_normalized = 1.0 / row_sum[adj.indices()[0]]
+            adj_normalized = torch.sparse_coo_tensor(adj.indices(), values_normalized, adj.size())
+            self.adj = adj_normalized
+
+            features = np.loadtxt(args.data_path+"UserFeature.txt", delimiter='\t')
+            features = augment_feature(features, self.nx_G)
+            self.features = torch.from_numpy(features).float().cuda()
+
+            labels_data = pd.read_csv(args.data_path+"UserLabel.txt", sep=' ', usecols=[1, 2])
+            labels_data = labels_data.to_numpy()
+            self.labels = torch.from_numpy(labels_data[:, 1]).cuda()
+            
+
+            training_data = np.loadtxt(args.data_path+"Training_Testing/5percent/train_4.csv", delimiter=' ', dtype=int)
+            testing_data = np.loadtxt(args.data_path+"Training_Testing/5percent/test_4.csv", delimiter=' ', dtype=int)
+    
+            self.idx_test = torch.from_numpy(testing_data[:,0] - 1).cuda()
+
+            self.idx_non_test = (training_data[:,0]-1).tolist() 
+
+        elif dataset in ['Computers', 'Photo']:
             self.adj, self.graph, self.features, self.labels, self.idx_test, self.idx_non_test = load_Amazon(dataset, normalization,
                                                                                                  cuda=cuda)
         elif dataset in ['CS', 'Physics']:
@@ -140,7 +227,8 @@ class run_wrapper():
         idx_non_test = self.idx_non_test.copy()
         print('len(idx_non_test) is {}'.format(len(idx_non_test)))
         # Select validation nodes.
-        num_val = 500
+        # num_val = 500
+        num_val = 10
         idx_val = np.random.choice(idx_non_test, num_val, replace=False)
         idx_non_test = list(set(idx_non_test) - set(idx_val))
 
@@ -164,7 +252,7 @@ class run_wrapper():
         elif args.dataset in ['Physics', 'CS']:
             hidden = 128
         else:
-            hidden = 512
+            hidden = 128
         DGI_model = DGI(ft_size, hidden, 'prelu')
         for name, param in DGI_model.named_parameters():
             if param.requires_grad:
@@ -227,8 +315,7 @@ class run_wrapper():
         pool = idx_non_test
         print('len(idx_non_test): {}'.format(len(idx_non_test)))
         np.random.seed() # cancel the fixed seed
-
-        model, acc_val, micro_val, macro_val, train_time = train_regression(model, self.features[selected_nodes],
+        model, acc_val, micro_val, macro_val, train_time, f1_val, recall_val, precision_val = train_regression(model, self.features[selected_nodes],
                                                                             self.labels[selected_nodes],
                                                                             self.features[idx_val],
                                                                             self.labels[idx_val],
@@ -239,8 +326,8 @@ class run_wrapper():
         # Active learning
         print('strategy: ', strategy)
         cur_num = 0
-        val_results = {'acc': [], 'micro': [], 'macro': []}
-        test_results = {'acc': [], 'micro': [], 'macro': []}
+        val_results = {'acc': [], 'micro': [], 'macro': [], 'f1': [], "recall":[], "precision":[]}
+        test_results = {'acc': [], 'micro': [], 'macro': [], 'f1': [], "recall":[], "precision":[]}
 
         uncertainty_results = {}
 
@@ -277,18 +364,21 @@ class run_wrapper():
             #print(f'fixed_medoids: {fixed_medoids}')
             assert len(fixed_medoids) == budget
 
-            model, acc_val, micro_val, macro_val, train_time = train_regression(model, self.features[selected_nodes],
+            model, acc_val, micro_val, macro_val, train_time, f1_val, recall_val, precision_val = train_regression(model, self.features[selected_nodes],
                                                                                 self.labels[selected_nodes],
                                                                                 self.features[idx_val],
                                                                                 self.labels[idx_val],
                                                                                 args.epochs, args.weight_decay, args.lr,
                                                                                 args.dropout)
 
-            acc_test, micro_test, macro_test = test_regression(model, self.features[self.idx_test],
+            acc_test, micro_test, macro_test, f1_test, recall_test, precision_test = test_regression(model, self.features[self.idx_test],
                                                                self.labels[self.idx_test])
 
-            acc_val = acc_val.cpu().item()
-            acc_test = acc_test.cpu().item()
+            # acc_val = acc_val.cpu().item()
+            # acc_test = acc_test.cpu().item()
+
+            print('f1_val_my: {}'.format(f1_val))
+            print('f1_test_my: {}'.format(f1_test))
 
             acc_val = round(acc_val, 4)
             acc_test = round(acc_test, 4)
@@ -296,15 +386,28 @@ class run_wrapper():
             micro_test = round(micro_test, 4)
             macro_val = round(macro_val, 4)
             macro_test = round(macro_test, 4)
+            f1_val = round(f1_val, 4)
+            f1_test = round(f1_test, 4)
+            recall_val = round(recall_val, 4)
+            recall_test = round(recall_test, 4)
+            precision_val = round(precision_val)
+            precision_test = round(precision_test)
 
             val_results['acc'].append(acc_val)
             val_results['micro'].append(micro_val)
             val_results['macro'].append(macro_val)
+            val_results['f1'].append(f1_val)
+            val_results['recall'].append(recall_val)
+            val_results['precision'].append(precision_val)
             test_results['acc'].append(acc_test)
             test_results['micro'].append(micro_test)
             test_results['macro'].append(macro_test)
-            print('micro_val: {:.4f}, macro_val: {:.4f}'.format(micro_val, macro_val))
-            print('micro_test: {:.4f}, macro_test: {:.4f}'.format(micro_test, macro_test))
+            test_results['f1'].append(f1_test)
+            test_results['recall'].append(recall_test)
+            test_results['precision'].append(precision_test)
+
+            # print('micro_val: {:.4f}, macro_val: {:.4f}'.format(micro_val, macro_val))
+            # print('micro_test: {:.4f}, macro_test: {:.4f}'.format(micro_test, macro_test))
 
         print('AL Time: {}s'.format(time_AL))
         return val_results, test_results, get_classes_statistic(self.labels[selected_nodes].cpu().numpy()), time_AL
@@ -331,11 +434,24 @@ if __name__ == '__main__':
         num_labeled_list = [i for i in range(10,151,10)]
     elif args.dataset == 'Physics':
         num_labeled_list = [i for i in range(10,101,10)]
+    elif args.dataset == 'amazon':
+        num_labeled_list = [i for i in range(10,201,10)]
+    elif args.dataset == 'yelp':
+        num_labeled_list = [i for i in range(10,401,10)]
     num_interval = len(num_labeled_list)
     val_results = {'micro': [[] for _ in range(num_interval)],
-                   'macro': [[] for _ in range(num_interval)]}
+                   'macro': [[] for _ in range(num_interval)],
+                   'acc': [[] for _ in range(num_interval)],
+                   'f1': [[] for _ in range(num_interval)],
+                   'recall': [[] for _ in range(num_interval)],
+                   'precision': [[] for _ in range(num_interval)]}
+
     test_results = {'micro': [[] for _ in range(num_interval)],
-                    'macro': [[] for _ in range(num_interval)]}
+                    'macro': [[] for _ in range(num_interval)],
+                    'acc': [[] for _ in range(num_interval)],
+                    'f1': [[] for _ in range(num_interval)],
+                    'recall': [[] for _ in range(num_interval)],
+                    'precision': [[] for _ in range(num_interval)]}
     if args.file_io:
         input_file = 'random_seed_10.txt'
         with open(input_file, 'r') as f:
@@ -345,7 +461,7 @@ if __name__ == '__main__':
         seeds = [52, 574, 641, 934, 12]
         # seeds = [574]
 
-    num_per_splits = 10
+    num_per_splits = 2
     seeds = seeds * num_per_splits
     num_run = len(seeds)
     wrapper = run_wrapper(args.dataset, args.normalization, args.cuda)
@@ -356,7 +472,7 @@ if __name__ == '__main__':
         print('current seed is {}'.format(seeds[i]))
         val_dict, test_dict, classes_dict, cur_AL_time = wrapper.run(args.strategy, num_labeled_list=num_labeled_list,
                                                                      seed=seeds[i])
-        for metric in ['micro', 'macro']:
+        for metric in ['micro', 'macro', 'acc', 'f1', 'recall', 'precision']:
             for j in range(len(val_dict[metric])):
                 val_results[metric][j].append(val_dict[metric][j])
                 test_results[metric][j].append(test_dict[metric][j])
@@ -364,14 +480,30 @@ if __name__ == '__main__':
         total_AL_time += cur_AL_time
 
     val_avg_results = {'micro': [0. for _ in range(num_interval)],
-                       'macro': [0. for _ in range(num_interval)]}
+                       'macro': [0. for _ in range(num_interval)],
+                       'acc': [0. for _ in range(num_interval)],
+                       'f1': [0. for _ in range(num_interval)],
+                       'recall': [0. for _ in range(num_interval)],
+                       'precision': [0. for _ in range(num_interval)]}
     test_avg_results = {'micro': [0. for _ in range(num_interval)],
-                        'macro': [0. for _ in range(num_interval)]}
+                    'macro': [0. for _ in range(num_interval)],
+                    'acc': [0. for _ in range(num_interval)],
+                    'f1': [0. for _ in range(num_interval)],
+                    'recall': [0. for _ in range(num_interval)],
+                    'precision': [0. for _ in range(num_interval)]}
     val_std_results = {'micro': [0. for _ in range(num_interval)],
-                       'macro': [0. for _ in range(num_interval)]}
+                        'macro': [0. for _ in range(num_interval)],
+                        'acc': [0. for _ in range(num_interval)],
+                        'f1': [0. for _ in range(num_interval)],
+                        'recall': [0. for _ in range(num_interval)],
+                        'precision': [0. for _ in range(num_interval)]}
     test_std_results = {'micro': [0. for _ in range(num_interval)],
-                        'macro': [0. for _ in range(num_interval)]}
-    for metric in ['micro', 'macro']:
+                        'macro': [0. for _ in range(num_interval)],
+                        'acc': [0. for _ in range(num_interval)],
+                        'f1': [0. for _ in range(num_interval)],
+                        'recall': [0. for _ in range(num_interval)],
+                        'precision': [0. for _ in range(num_interval)]}
+    for metric in ['micro', 'macro', 'acc', 'f1', 'recall', 'precision']:
         for j in range(len(val_results[metric])):
             val_avg_results[metric][j] = np.mean(val_results[metric][j])
             test_avg_results[metric][j] = np.mean(test_results[metric][j])
@@ -388,7 +520,7 @@ if __name__ == '__main__':
             f.write(f'Budget list: {num_labeled_list}\n')
             f.write(f'learning rate: {args.lr}, epoch: {args.epochs}, reweighting: {args.reweight}\n')
             f.write(f'incremental clustering \nNew idea, hidden: {args.hidden}, 50runs, args.feature: {args.feature}\n')
-            for metric in ['micro', 'macro']:
+            for metric in ['micro', 'macro', 'acc', 'f1', 'recall', 'precision']:
                 f.write("Test_{}_f1 {}\n".format(metric, " ".join("{:.4f}".format(i) for i in test_avg_results[metric])))
                 f.write("Test_{}_std {}\n".format(metric, " ".join("{:.4f}".format(i) for i in test_std_results[metric])))
 

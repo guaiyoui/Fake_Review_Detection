@@ -9,7 +9,7 @@ from torch_geometric.utils import degree
 import torch_geometric.data as data
 import pickle
 import torch.nn.functional as F
-
+import pandas as pd
 from sklearn.cluster import KMeans
 
 def parse_args():
@@ -58,9 +58,12 @@ if __name__ == "__main__":
     
     # ===== evaluate the quality =====
 
-    labels_data = np.loadtxt("./data_graph/spammer_label.txt", delimiter=' ', dtype=int)
-    
-    labels = torch.from_numpy(labels_data[:, 2])
+    # labels_data = np.loadtxt("./data_graph/spammer_label.txt", delimiter=' ', dtype=int)
+    # labels = torch.from_numpy(labels_data[:, 2])
+
+    labels_data = pd.read_csv("./data_graph/spammer_label.txt", sep=' ', usecols=[1, 2], header=None)
+    labels_data = labels_data.to_numpy()
+    labels = torch.from_numpy(labels_data[:, 1])
 
     # print(clusters, labels)
 

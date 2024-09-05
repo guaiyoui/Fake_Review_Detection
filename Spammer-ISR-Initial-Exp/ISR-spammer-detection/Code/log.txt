@@ -1,0 +1,258 @@
+Number of Edges in Network: 9005656 Total Edges of Normal:7233495 Total Edges of Spammer:1772161
+Number of Spam-Spam Edges in Network: 524388 Number of Normal-Normal Edges in Network:5985722
+Purity1: 0.295903  Purity0:0.827501
+The lambda is: 0
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+tp = 0
+fn = 5309
+fp = 0
+tn = 10535
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+alpha[0] = 0.985367
+alpha[1] = 0.0146334
+In Loss Function: 0.985367...0.0146334...0
+Go out loss function....
+IntiLR Loss: 2633.51
+Go into EStep....
+alpha[0] = 0.56581
+alpha[1] = 0.0165105
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 6048379
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.56581...0.0165105...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 1, Loss: 925.05
+Go into EStep....
+alpha[0] = 0.464312
+alpha[1] = 0.0291572
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 921143
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.464312...0.0291572...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 2, Loss: 802.777
+Go into EStep....
+alpha[0] = 0.423405
+alpha[1] = 0.045793
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 921143
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.423405...0.045793...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 3, Loss: 816.626
+Go into EStep....
+alpha[0] = 0.422425
+alpha[1] = 0.0663852
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 921143
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.422425...0.0663852...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 4, Loss: 823.314
+Go into EStep....
+alpha[0] = 0.418186
+alpha[1] = 0.0863701
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 921143
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.418186...0.0863701...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 5, Loss: 828.703
+Go into EStep....
+alpha[0] = 0.413529
+alpha[1] = 0.105782
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 921143
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.413529...0.105782...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 6, Loss: 833.822
+Go into EStep....
+alpha[0] = 0.408642
+alpha[1] = 0.124355
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 921143
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.408642...0.124355...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 7, Loss: 838.734
+Go into EStep....
+alpha[0] = 0.403633
+alpha[1] = 0.141906
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 921143
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.403633...0.141906...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 8, Loss: 843.38
+Go into EStep....
+alpha[0] = 0.398602
+alpha[1] = 0.158314
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 921143
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.398602...0.158314...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 9, Loss: 766.102
+Go into EStep....
+alpha[0] = 0.377926
+alpha[1] = 0.166111
+Start Generating New Dataset....
+After Inserting Nodes ITSELVES, Data Size: 16678
+Size of New DATASETS: 921143
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+/home/jianweiw/.local/lib/python3.10/site-packages/sklearn/metrics/_classification.py:1509: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", len(result))
+DIRDIR: /data1/jianweiw/env_forge
+15844  15844  should be equal
+In Loss Function: 0.377926...0.166111...0
+Go out loss function....
+tp = 0, Spammer to Spammer
+fn = 5309, Spammer to Normal
+fp = 0, Normal to Spammer
+tn = 10535, Normal to Normal
+RECALL = 0
+PRECISION = -nan
+F-MEASURE = -nan
+Iteration Number: 10, Loss: 815.883

@@ -18,3 +18,6 @@ Repo Structure
       g++ -I/data1/jianweiw/env_forge/include main.cpp -L/data1/jianweiw/env_forge/lib -lpython3.10 -lstdc++
    2)python2c.py is the Python implementation of logistic regression and it is invoked by C++ code, in order to accelerate computations on large-scale data. 
 3. Rank-Metrics/ contains evaluation modules including AP, AUC and Fmeasure metrics. Note that the Matlab codes are revised based on SpEAGLE implementations downloaded from http://shebuti.com/collective-opinion-spam-detection/
+
+
+g++ -I/data1/jianweiw/env_forge/include main.cpp -L/data1/jianweiw/env_forge/lib -lpython3.10 -lstdc++ -mcmodel=large

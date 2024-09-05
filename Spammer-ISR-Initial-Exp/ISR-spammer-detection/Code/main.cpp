@@ -20,9 +20,12 @@
 #include </data1/jianweiw/env_forge/include/python3.10/pythonrun.h>
 
 /*++++++++++++++Parameters to be Set, If Datasets are CHANGED+++++++++++++++++++++++++++++*/
-#define labLen 419 //5%-419//10%-837 //30%-2512 // //Size of Labeled Users
-#define unLen 9424 // Size of ALL Users
-#define MAXEDGES 3000000 // Size of Network Edges
+// #define labLen 419 //5%-419//10%-837 //30%-2512 // //Size of Labeled Users
+// #define unLen 9424 // Size of ALL Users
+// #define MAXEDGES 3000000 // Size of Network Edges
+#define labLen 833 //5%-833//10%-1667 //30%-5003 // //Size of Labeled Users
+#define unLen 16677 // Size of ALL Users
+#define MAXEDGES 10000000 // Size of Network Edges
 #define ClassNum 2
 static float spamclass=1; //Increase the weight of spam class
 static float DD = 1;//20; // Weight d default 20
@@ -37,11 +40,11 @@ struct UPM {
     int uID;
     int shill;
     int tempLab;
-    int neighbors[8000];
+    int neighbors[12000];
     int neighborsNum;
     float pTheta[ClassNum];  // P_\theta (y_j^{(i)=k|u_j^{(i)}})
     float pFinalLabelWeight[ClassNum]; // \hat{y_i}
-    float z_jk[8000][ClassNum]; // z_{jk}^{(i)}
+    float z_jk[12000][ClassNum]; // z_{jk}^{(i)}
 };
 struct UPM LabUPM[labLen];
 struct UPM UnUPM[unLen+1];
@@ -234,6 +237,7 @@ float LossFunction(float lambda, float d){
     
     cout<<"In Loss Function: "<<alpha_k[0]<<"..."<<alpha_k[1]<<"..."<<lambda<<endl;
     for (i = 1; i <= unLen; i++){
+        // cout<<"In Loss Function start: "<<endl;
         if(UnUPM[i].pTheta[1]<0.000001) P1=0.000001;
         else P1=UnUPM[i].pTheta[1];
         if(UnUPM[i].pTheta[0]<0.000001) P0=0.000001;
@@ -254,6 +258,7 @@ float LossFunction(float lambda, float d){
         if(UnUPM[i].shill != -10 && UnUPM[i].neighborsNum > 0){
             ww = 1; PP = 0;
             if(UnUPM[i].shill == -1) ww = lambda;
+            // cout<<"In the start: "<<endl;
             if(UnUPM[i].shill == 1 || UnUPM[i].tempLab == 1){
                 for (j = 0; j < UnUPM[i].neighborsNum; j++){
                     if (UnUPM[UnUPM[i].neighbors[j]].shill == 1){
@@ -275,15 +280,20 @@ float LossFunction(float lambda, float d){
                     }
                  }//End for j
             }
+            // cout<<"In the downside: "<<endl;
             if(UnUPM[i].shill == 0 || UnUPM[i].tempLab == 0){
                 for (j = 0; j < UnUPM[i].neighborsNum; j++){
+                    // cout<<"In the downside inner: " << UnUPM[i].uID << ", " << UnUPM[i].neighborsNum << ", " << UnUPM[i].neighbors[j] <<endl;
                     if (UnUPM[UnUPM[i].neighbors[j]].shill == 1){
+                        // cout<<"In the inside 1: "<<endl;
                         PP += log(1-alpha_k[1]);
                     }
                     else if(UnUPM[UnUPM[i].neighbors[j]].shill == 0){
+                        // cout<<"In the inside 2: "<<endl;
                         PP += log(1-alpha_k[0]);
                     }
                     else if(UnUPM[UnUPM[i].neighbors[j]].shill == -1){
+                        // cout<<"In the inside 3: "<<endl;
                         float NP1,NP0;
                         if(UnUPM[UnUPM[i].neighbors[j]].pTheta[1]<0.000001)
                             NP1 = 0.000001;
@@ -291,8 +301,11 @@ float LossFunction(float lambda, float d){
                         if(UnUPM[UnUPM[i].neighbors[j]].pTheta[0]<0.000001)
                             NP0 = 0.000001;
                         else NP0 = UnUPM[UnUPM[i].neighbors[j]].pTheta[0];
-                        if(UnUPM[UnUPM[i].neighbors[j]].tempLab==1) PP += log((1-alpha_k[1]) * NP1);
+                        // cout<<"In the inside 3-mid: " << log((1-alpha_k[1]) * NP1) << log((1-alpha_k[0]) * NP0) <<endl;
+                        if(UnUPM[UnUPM[i].neighbors[j]].tempLab == 1) PP += log((1-alpha_k[1]) * NP1);
                         else PP += log((1-alpha_k[0]) * NP0);
+                        // if(UnUPM[UnUPM[i].neighbors[j]].tempLab == 1) PP += 0;
+                        // else PP += 0;
                     }
                 }}
             Loss -= (d*ww/UnUPM[i].neighborsNum)*PP;
@@ -315,6 +328,8 @@ void InitClassifier(float lambda){
     unsigned i;
     float *iWeight = new float[labLen];
     float clsFriendsNum[ClassNum];
+    clsFriendsNum[0] = 0;
+    clsFriendsNum[1] = 0;
     for(i=0; i<labLen; i++)  iWeight[i] = 1;  //End 初始的instance weight 1
     Python_LR_Invoke(Train_Index, Train_Label, iWeight, labLen);
 

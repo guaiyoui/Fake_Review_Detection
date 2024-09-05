@@ -1,0 +1,1 @@
+nohup ./a.out >> ./log.txt 2>&1 &

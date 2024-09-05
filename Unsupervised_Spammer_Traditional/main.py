@@ -7,6 +7,7 @@ import random
 from sklearn.cluster import SpectralClustering
 from networkx.algorithms.community import modularity_max
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Training settings
 def parse_args():
@@ -101,10 +102,10 @@ def compute_metric(pred, labels):
     precision = tp/(tp+fp)
     f = 2*recall*precision /(recall + precision)
 
-    print("RECALL = ", recall)
-    print("PRECISION = ", precision)
-    print("F-MEASURE = ", f)
-    return f
+    # print("RECALL = ", recall)
+    # print("PRECISION = ", precision)
+    # print("F-MEASURE = ", f)
+    return f, recall, precision
 
 
 def plot(x_data, y_data, figure_name):
@@ -159,8 +160,11 @@ if __name__ == "__main__":
     
     graph_data = np.loadtxt("../Unsupervised_Spammer_Learning/data_graph/spammer_edge_index.txt", delimiter=' ', dtype=int)
     features = np.loadtxt("../Unsupervised_Spammer_Learning/data_graph/spammer_feature.txt", delimiter='\t')
-    labels_data = np.loadtxt("../Unsupervised_Spammer_Learning/data_graph/spammer_label.txt", delimiter=' ', dtype=int)
-    labels = torch.from_numpy(labels_data[:, 2])
+    # labels_data = np.loadtxt("../Unsupervised_Spammer_Learning/data_graph/spammer_label.txt", delimiter=' ', dtype=int)
+    # labels = torch.from_numpy(labels_data[:, 2])
+    labels_data = pd.read_csv("../Unsupervised_Spammer_Learning/data_graph/spammer_label.txt", sep=' ', usecols=[1, 2], header=None)
+    labels_data = labels_data.to_numpy()
+    labels = torch.from_numpy(labels_data[:, 1])
 
     # 调整节点索引
     graph_data[:,0] = graph_data[:,0] - 1
@@ -183,8 +187,15 @@ if __name__ == "__main__":
     communities = modularity_max.greedy_modularity_communities(G)
     # Take the largest two communities
     top_communities = sorted(communities, key=len, reverse=True)[:2]
-    f1 = compute_metric(top_communities[0], labels)
-    f1 = compute_metric(top_communities[1], labels)
+    f1, recall, precision = compute_metric(top_communities[0], labels)
+    print("RECALL = ", recall)
+    print("PRECISION = ", precision)
+    print("F-MEASURE = ", f1)
+
+    f1, recall, precision = compute_metric(top_communities[1], labels)
+    print("RECALL = ", recall)
+    print("PRECISION = ", precision)
+    print("F-MEASURE = ", f1)
 
     # 2. K-core-based community detection
     k_core = nx.k_core(G)
@@ -205,16 +216,22 @@ if __name__ == "__main__":
     
     k_value = []
     f1_score = []
+    recall_score = []
+    precision_score = []
     for k in range(1, max(communities_aff.keys())+1):
         print(f"the k value is {k}")
         detected_community = []
         for i in range(k, max(communities_aff.keys())+1):
             if i in communities_aff.keys():
                 detected_community.extend(communities_aff[i])
-        f1 = compute_metric(detected_community, labels)
+        f1, recall, precision = compute_metric(detected_community, labels)
         k_value.append(k)
         f1_score.append(f1)
+        recall_score.append(recall)
+        precision_score.append(precision)
     plot(k_value, f1_score, "kcore_method")
+    plot(k_value, recall_score, "recall_score_method")
+    plot(k_value, precision_score, "precision_score_method")
 
     # 3. 指定数量的社区检测（基于谱聚类）
     # 指定想要的社区数量
@@ -248,7 +265,9 @@ if __name__ == "__main__":
     print(f"Modularity: {modularity}")
     for community in range(2):
         community_nodes = [node for node in G.nodes() if partition_dict[node] == community]
-        f1 = compute_metric(community_nodes, labels)
-
+        f1, recall, precision = compute_metric(community_nodes, labels)
+        print("RECALL = ", recall)
+        print("PRECISION = ", precision)
+        print("F-MEASURE = ", f1)
     
     

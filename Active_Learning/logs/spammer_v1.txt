@@ -1,0 +1,294 @@
+nohup: ignoring input
+self.labels: (tensor([0, 0, 0,  ..., 1, 1, 1], device='cuda:0'), torch.Size([16677]))
+self.adj: tensor(indices=tensor([[    0,     0,     0,  ..., 16676, 16676, 16676],
+                       [    1,     2,     3,  ..., 16673, 16674, 16675]]),
+       values=tensor([0.0009, 0.0009, 0.0009,  ..., 0.0116, 0.0116, 0.0116]),
+       device='cuda:0', size=(16677, 16677), nnz=9005656,
+       layout=torch.sparse_coo)
+self.feature: (tensor([[1., 1., 2., 2.],
+        [1., 1., 1., 1.],
+        [1., 1., 1., 1.],
+        ...,
+        [1., 1., 1., 1.],
+        [1., 1., 1., 1.],
+        [1., 1., 1., 1.]], device='cuda:0'), torch.Size([16677, 4]))
+self.idx_test is 15844, self.idx_non_test is 833
+finished loading dataset
+current seed is 27596
+len(idx_non_test) is 833
+in_feat: 4, out_feat: 16
+in_feat: 16, out_feat: 2
+len(idx_non_test): 728
+Traceback (most recent call last):
+  File "run_baselines.py", line 446, in <module>
+    val_dict, test_dict, classes_dict, cur_AL_time = wrapper.run(args.strategy, num_labeled_list=num_labeled_list,
+  File "run_baselines.py", line 287, in run
+    model, acc_val, micro_val, macro_val, train_time = train_GCN(model, self.adj, selected_nodes, idx_val, self.features,
+  File "run_baselines.py", line 131, in train_GCN
+    micro_val, macro_val = f1(output, val_labels)
+  File "/data1/jianweiw/LLM/Fake_review_detection/Fake_Review_Detection/Active_Learning/metrics.py", line 23, in f1
+    for i in range(testing_data.shape[0]):
+NameError: name 'testing_data' is not defined
+nohup: ignoring input
+self.labels: (tensor([0, 0, 0,  ..., 1, 1, 1], device='cuda:0'), torch.Size([16677]))
+self.adj: tensor(indices=tensor([[    0,     0,     0,  ..., 16676, 16676, 16676],
+                       [    1,     2,     3,  ..., 16673, 16674, 16675]]),
+       values=tensor([0.0009, 0.0009, 0.0009,  ..., 0.0116, 0.0116, 0.0116]),
+       device='cuda:0', size=(16677, 16677), nnz=9005656,
+       layout=torch.sparse_coo)
+self.feature: (tensor([[1., 1., 2., 2.],
+        [1., 1., 1., 1.],
+        [1., 1., 1., 1.],
+        ...,
+        [1., 1., 1., 1.],
+        [1., 1., 1., 1.],
+        [1., 1., 1., 1.]], device='cuda:0'), torch.Size([16677, 4]))
+self.idx_test is 15844, self.idx_non_test is 833
+finished loading dataset
+current seed is 27596
+len(idx_non_test) is 833
+in_feat: 4, out_feat: 16
+in_feat: 16, out_feat: 2
+len(idx_non_test): 728
+acc_val: 0.63
+-------------initial results------------
+micro_val: 0.6300, macro_val: 0.3865
+strategy:  random
+epoch: 160, acc_val: 0.61, best_acc_val: 0.63
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.66
+micro_val: 0.6600, macro_val: 0.5687
+micro_test: 0.7054, macro_test: 0.6125
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.66
+micro_val: 0.6600, macro_val: 0.5047
+micro_test: 0.7182, macro_test: 0.5725
+acc_val: 0.66
+micro_val: 0.6600, macro_val: 0.5340
+micro_test: 0.7222, macro_test: 0.6012
+epoch: 150, acc_val: 0.66, best_acc_val: 0.67
+acc_val: 0.67
+micro_val: 0.6700, macro_val: 0.5411
+micro_test: 0.7254, macro_test: 0.5972
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6695, macro_test: 0.4138
+acc_val: 0.64
+micro_val: 0.6400, macro_val: 0.4152
+micro_test: 0.6755, macro_test: 0.4326
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.4426
+micro_test: 0.6907, macro_test: 0.4787
+epoch: 130, acc_val: 0.65, best_acc_val: 0.67
+acc_val: 0.67
+micro_val: 0.6700, macro_val: 0.5540
+micro_test: 0.7195, macro_test: 0.6056
+epoch: 290, acc_val: 0.65, best_acc_val: 0.67
+acc_val: 0.67
+micro_val: 0.6700, macro_val: 0.5540
+micro_test: 0.7248, macro_test: 0.6089
+acc_val: 0.66
+micro_val: 0.6600, macro_val: 0.4876
+micro_test: 0.7106, macro_test: 0.5401
+epoch: 120, acc_val: 0.64, best_acc_val: 0.67
+acc_val: 0.67
+micro_val: 0.6700, macro_val: 0.5540
+micro_test: 0.7221, macro_test: 0.6071
+AL Time: 0.0016297083348035812s
+current seed is 8925
+len(idx_non_test) is 833
+in_feat: 4, out_feat: 16
+in_feat: 16, out_feat: 2
+len(idx_non_test): 728
+acc_val: 0.65
+-------------initial results------------
+micro_val: 0.6500, macro_val: 0.3939
+strategy:  random
+epoch: 170, acc_val: 0.63, best_acc_val: 0.65
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+epoch: 140, acc_val: 0.63, best_acc_val: 0.65
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.64
+micro_val: 0.6400, macro_val: 0.4575
+micro_test: 0.6269, macro_test: 0.4642
+acc_val: 0.64
+micro_val: 0.6400, macro_val: 0.4755
+micro_test: 0.6239, macro_test: 0.4809
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.5133
+micro_test: 0.6180, macro_test: 0.5098
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.5133
+micro_test: 0.6249, macro_test: 0.5068
+epoch: 290, acc_val: 0.63, best_acc_val: 0.65
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+epoch: 100, acc_val: 0.65, best_acc_val: 0.71
+acc_val: 0.71
+micro_val: 0.7100, macro_val: 0.5704
+micro_test: 0.7160, macro_test: 0.5704
+AL Time: 0.0014447439461946487s
+current seed is 27596
+len(idx_non_test) is 833
+in_feat: 4, out_feat: 16
+in_feat: 16, out_feat: 2
+len(idx_non_test): 728
+acc_val: 0.63
+-------------initial results------------
+micro_val: 0.6300, macro_val: 0.3865
+strategy:  random
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.5361
+micro_test: 0.7022, macro_test: 0.6003
+acc_val: 0.53
+micro_val: 0.5300, macro_val: 0.4868
+micro_test: 0.5855, macro_test: 0.5454
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6695, macro_test: 0.4138
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6693, macro_test: 0.4134
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6693, macro_test: 0.4134
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6717, macro_test: 0.4209
+AL Time: 0.001423317939043045s
+current seed is 8925
+len(idx_non_test) is 833
+in_feat: 4, out_feat: 16
+in_feat: 16, out_feat: 2
+len(idx_non_test): 728
+acc_val: 0.65
+-------------initial results------------
+micro_val: 0.6500, macro_val: 0.3939
+strategy:  random
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6693, macro_test: 0.4134
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+epoch: 110, acc_val: 0.65, best_acc_val: 0.7000000000000001
+acc_val: 0.7000000000000001
+micro_val: 0.7000, macro_val: 0.5312
+micro_test: 0.7095, macro_test: 0.5370
+epoch: 110, acc_val: 0.65, best_acc_val: 0.68
+acc_val: 0.68
+micro_val: 0.6800, macro_val: 0.4802
+micro_test: 0.7127, macro_test: 0.5461
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.3939
+micro_test: 0.6649, macro_test: 0.3994
+AL Time: 0.0013953708112239838s
+current seed is 27596
+len(idx_non_test) is 833
+in_feat: 4, out_feat: 16
+in_feat: 16, out_feat: 2
+len(idx_non_test): 728
+acc_val: 0.63
+-------------initial results------------
+micro_val: 0.6300, macro_val: 0.3865
+strategy:  random
+acc_val: 0.63
+micro_val: 0.6300, macro_val: 0.3865
+micro_test: 0.6649, macro_test: 0.3994
+epoch: 110, acc_val: 0.63, best_acc_val: 0.65
+acc_val: 0.65
+micro_val: 0.6500, macro_val: 0.5611
+micro_test: 0.6857, macro_test: 0.6006
