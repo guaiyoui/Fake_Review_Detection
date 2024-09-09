@@ -240,9 +240,27 @@ def train_GCN(model, adj, selected_nodes, val_nodes,
         print('f1_val_isr: {}'.format(f1_val))
     return model, acc_val, micro_val, macro_val, train_time, f1_val, recall_val, precision_val
 
-def test_GCN(model, adj, test_mask, features, test_labels, all_test_labels, all_test_idx):
+def test_GCN(model, adj, test_mask, features, test_labels, all_test_labels, all_test_idx, test_idx=None, save_name=None, dataset_name=None):
     model.eval()
     output_all = model(features, adj)
+
+    if test_idx is not None:
+        output_test = output_all[test_idx, :]
+        output_test_preds = output_test.max(1)[1]
+        path = "./spammer_results/"+dataset_name+"/"+save_name+".txt"
+        
+        with open(path, 'w') as file:
+            for i, pred in zip(test_idx, output_test_preds):
+                file.write(f'{i} {pred}\n')
+
+        output_test_all = output_all[all_test_idx, :]
+        output_test_all_preds = output_test_all.max(1)[1]
+        path = "./spammer_results/"+dataset_name+"/"+save_name+"_all.txt"
+        
+        with open(path, 'w') as file:
+            for i, pred in zip(all_test_idx, output_test_all_preds):
+                file.write(f'{i} {pred}\n')
+
     output = output_all[test_mask, :]
     acc_test = accuracy(output, test_labels)
     micro_test, macro_test = f1(output, test_labels)
@@ -337,26 +355,6 @@ class run_wrapper():
             adj_normalized = torch.sparse_coo_tensor(adj.indices(), values_normalized, adj.size())
             self.adj = adj_normalized
             print(self.adj)
-            # self.adj = adj_normalized.to_sparse_csr()
-            # self.adj = adj.indices()
-
-            # print("start constructing adj")
-            # edge_tensor = torch.from_numpy(graph_data).long()
-            # if edge_tensor.dtype != torch.int64:
-            #     raise ValueError(f"Expected 'edge_index' to be of integer type (got '{edge_tensor.dtype}')")
-            # if edge_tensor.size(1) != 2:
-            #     raise ValueError(f"Expected 'edge_index' to have size '2' in the first dimension (got '{edge_tensor.size(1)}')")
-            # indices = edge_tensor.t().contiguous()
-            # num_edges = edge_tensor.shape[0]
-            # values = torch.ones(num_edges)
-            # num_nodes = edge_tensor.max().item() + 1
-            # adj = torch.sparse_coo_tensor(indices, values, size=(num_nodes, num_nodes)).to_sparse_csr()
-            # adj = adj.to('cuda:0')
-            # row_sum = torch.sparse.sum(adj, dim=1).to_dense()
-            # row_sum[row_sum == 0] = 1  # 避免除以零
-            # values_normalized = 1.0 / row_sum[adj.crow_indices()]
-            # adj_normalized = torch.sparse_csr_tensor(adj.crow_indices(), adj.col_indices(), values_normalized, size=adj.size())
-            # self.adj = adj_normalized
 
             print("start loading features")
             
@@ -370,12 +368,14 @@ class run_wrapper():
             self.labels = torch.from_numpy(labels_data[:, 1]).cuda()
             
 
-            training_data = np.loadtxt(args.data_path+"Training_Testing/50percent/train_4.csv", delimiter=' ', dtype=int)
-            testing_data = np.loadtxt(args.data_path+"Training_Testing/50percent/test_4.csv", delimiter=' ', dtype=int)
+            training_data = np.loadtxt(args.data_path+"Training_Testing/"+args.test_percents+"/train_4.csv", delimiter=' ', dtype=int)
+            testing_data = np.loadtxt(args.data_path+"Training_Testing/"+args.test_percents+"/test_4.csv", delimiter=' ', dtype=int)
     
             self.idx_test = torch.from_numpy(testing_data[:,0] - 1).cuda()
 
             self.idx_non_test = (training_data[:,0]-1).tolist() 
+
+            self.idx_test_ori = torch.from_numpy(testing_data[:,0] - 1).cuda()
 
         self.dataset = dataset
         print(f'self.labels: {self.labels, self.labels.shape}')
@@ -507,7 +507,7 @@ class run_wrapper():
                                                                              args.dropout)
             print(f"the number of labels is {num_labeled_list[i]}")
             if args.model == 'GCN':
-                acc_test, micro_test, macro_test, f1_test, recall_test, precision_test = test_GCN(model, self.adj, self.idx_test, self.features, self.labels[self.idx_test], self.labels[all_test_idx],all_test_idx)
+                acc_test, micro_test, macro_test, f1_test, recall_test, precision_test = test_GCN(model, self.adj, self.idx_test, self.features, self.labels[self.idx_test], self.labels[all_test_idx], all_test_idx, test_idx=self.idx_test_ori, save_name=args.test_percents, dataset_name=args.dataset)
             
 
             print('f1_val_isr: {}'.format(f1_val))

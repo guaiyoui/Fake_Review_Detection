@@ -16,7 +16,7 @@ def get_citation_args():
                         help='Number of hidden units.')
     parser.add_argument('--dropout', type=float, default=0.5,
                         help='Dropout rate (1 - keep probability).')
-    parser.add_argument('--dataset', type=str, default="cora",
+    parser.add_argument('--dataset', type=str, default="amazon",
                         help='Dataset to use.')
     parser.add_argument('--model', type=str, default="SGC",
                         choices=["SGC", "GCN"],
@@ -50,6 +50,8 @@ def get_citation_args():
                         help='the name of the saved figure')
 
     parser.add_argument('--data_path', type=str, default='../Spammer-ISR-Initial-Exp/ISR-spammer-detection/Data/', help='query strategy')
+
+    parser.add_argument('--test_percents', type=str, default='50percent', help='test_percents')
 
 
     args, _ = parser.parse_known_args()

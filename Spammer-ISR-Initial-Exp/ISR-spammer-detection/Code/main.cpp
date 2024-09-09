@@ -20,12 +20,12 @@
 #include </data1/jianweiw/env_forge/include/python3.10/pythonrun.h>
 
 /*++++++++++++++Parameters to be Set, If Datasets are CHANGED+++++++++++++++++++++++++++++*/
-// #define labLen 419 //5%-419//10%-837 //30%-2512 // //Size of Labeled Users
-// #define unLen 9424 // Size of ALL Users
-// #define MAXEDGES 3000000 // Size of Network Edges
-#define labLen 833 //5%-833//10%-1667 //30%-5003 // //Size of Labeled Users
-#define unLen 16677 // Size of ALL Users
-#define MAXEDGES 10000000 // Size of Network Edges
+#define labLen 419 //5%-419//10%-837 //30%-2512 // //Size of Labeled Users
+#define unLen 9424 // Size of ALL Users
+#define MAXEDGES 3000000 // Size of Network Edges
+// #define labLen 833 //5%-833//10%-1667 //30%-5003 // //Size of Labeled Users
+// #define unLen 16677 // Size of ALL Users
+// #define MAXEDGES 10000000 // Size of Network Edges
 #define ClassNum 2
 static float spamclass=1; //Increase the weight of spam class
 static float DD = 1;//20; // Weight d default 20
@@ -668,14 +668,17 @@ float MStep(float lambda, float d){
     
     float Loss = LossFunction(lambda,d);
     int tp = 0; int fn = 0; int fp = 0; int tn = 0;
+    ofstream fout("./spammer_results/prediction_5percents.txt");
     for (int i = 1; i <= unLen; i++) {
         if (UnUPM[i].shill == -1){
             if(UnUPM[i].tempLab == 1 && UnLabels[i] == 1) tp++;
             if(UnUPM[i].tempLab == 0 && UnLabels[i] == 1) fn++;
             if(UnUPM[i].tempLab == 1 && UnLabels[i] == 0) fp++;
             if(UnUPM[i].tempLab == 0 && UnLabels[i] == 0) tn++;
+            fout << i << " " << UnUPM[i].tempLab << endl;
         }
     }
+    fout.close();
     cout<<"tp = "<<tp<<", Spammer to Spammer"<<endl;
     cout<<"fn = "<<fn<<", Spammer to Normal"<<endl;
     cout<<"fp = "<<fp<<", Normal to Spammer"<<endl;
