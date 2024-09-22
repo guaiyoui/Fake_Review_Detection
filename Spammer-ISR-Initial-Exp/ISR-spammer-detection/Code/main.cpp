@@ -20,9 +20,15 @@
 #include </data1/jianweiw/env_forge/include/python3.10/pythonrun.h>
 
 /*++++++++++++++Parameters to be Set, If Datasets are CHANGED+++++++++++++++++++++++++++++*/
-#define labLen 419 //5%-419//10%-837 //30%-2512 // //Size of Labeled Users
+// #define labLen 419 //5%-419//10%-837 //30%-2512 // //Size of Labeled Users
+// #define labLen 837
+// #define labLen 2512
+#define labLen 4187
+
 #define unLen 9424 // Size of ALL Users
 #define MAXEDGES 3000000 // Size of Network Edges
+
+// for yelp dataset
 // #define labLen 833 //5%-833//10%-1667 //30%-5003 // //Size of Labeled Users
 // #define unLen 16677 // Size of ALL Users
 // #define MAXEDGES 10000000 // Size of Network Edges
@@ -69,9 +75,22 @@ void initialization() {
     // ifstream fin1("dataset/5percent/train_4.csv");//dataset/one-portion/train_2.csv
     // ifstream fin4("dataset/5percent/test_4.csv");//dataset/5percent/test_1.csv
     // ifstream fin3("dataset/jaccard0.2.txt"); // all of user neighbors
-    ifstream fin1("../Data/Training_Testing/5percent/train_4.csv");//dataset/one-portion/train_2.csv
-    ifstream fin4("../Data/Training_Testing/5percent/test_4.csv");//dataset/5percent/test_1.csv
+    // ifstream fin1("../Data/Training_Testing/5percent/train_4.csv");//dataset/one-portion/train_2.csv
+    // ifstream fin4("../Data/Training_Testing/5percent/test_4.csv");//dataset/5percent/test_1.csv
+    // ifstream fin3("../Data/jaccard0.2.txt"); // all of user neighbors
+    
+    // ifstream fin1("../Data/Training_Testing/10percent/train_4.csv");//dataset/one-portion/train_2.csv
+    // ifstream fin4("../Data/Training_Testing/10percent/test_4.csv");//dataset/5percent/test_1.csv
+    // ifstream fin3("../Data/jaccard0.2.txt"); // all of user neighbors
+
+    // ifstream fin1("../Data/Training_Testing/30percent/train_4.csv");//dataset/one-portion/train_2.csv
+    // ifstream fin4("../Data/Training_Testing/30percent/test_4.csv");//dataset/5percent/test_1.csv
+    // ifstream fin3("../Data/jaccard0.2.txt"); // all of user neighbors
+    
+ifstream fin1("../Data/Training_Testing/50percent/train_4.csv");//dataset/one-portion/train_2.csv
+    ifstream fin4("../Data/Training_Testing/50percent/test_4.csv");//dataset/5percent/test_1.csv
     ifstream fin3("../Data/jaccard0.2.txt"); // all of user neighbors
+
     //ifstream fin3("network_files/UserNeighbors3.txt"); // all of user neighbors
     int i,labelID,userID;
     for (i = 1; i <= unLen; i++){
@@ -668,7 +687,12 @@ float MStep(float lambda, float d){
     
     float Loss = LossFunction(lambda,d);
     int tp = 0; int fn = 0; int fp = 0; int tn = 0;
-    ofstream fout("./spammer_results/prediction_5percents.txt");
+    
+    // ofstream fout("./spammer_results/prediction_5percents.txt");
+    // ofstream fout("./spammer_results/prediction_10percents.txt");
+    // ofstream fout("./spammer_results/prediction_30percents.txt");
+    ofstream fout("./spammer_results/prediction_50percents.txt");
+
     for (int i = 1; i <= unLen; i++) {
         if (UnUPM[i].shill == -1){
             if(UnUPM[i].tempLab == 1 && UnLabels[i] == 1) tp++;

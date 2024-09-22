@@ -240,22 +240,28 @@ def train_GCN(model, adj, selected_nodes, val_nodes,
         print('f1_val_isr: {}'.format(f1_val))
     return model, acc_val, micro_val, macro_val, train_time, f1_val, recall_val, precision_val
 
-def test_GCN(model, adj, test_mask, features, test_labels, all_test_labels, all_test_idx, test_idx=None, save_name=None, dataset_name=None):
+def test_GCN(model, adj, test_mask, features, test_labels, all_test_labels, all_test_idx, test_idx=None, save_name=None, dataset_name=None, sample_global=False):
     model.eval()
     output_all = model(features, adj)
 
     if test_idx is not None:
         output_test = output_all[test_idx, :]
         output_test_preds = output_test.max(1)[1]
-        path = "./spammer_results/"+dataset_name+"/"+save_name+".txt"
-        
+        if sample_global:
+            path = "./spammer_results/"+dataset_name+"/"+save_name+".txt"
+        else:
+            path = "./spammer_results/"+dataset_name+"/"+save_name+"_sample_global.txt"
+
         with open(path, 'w') as file:
             for i, pred in zip(test_idx, output_test_preds):
                 file.write(f'{i} {pred}\n')
 
         output_test_all = output_all[all_test_idx, :]
         output_test_all_preds = output_test_all.max(1)[1]
-        path = "./spammer_results/"+dataset_name+"/"+save_name+"_all.txt"
+        if sample_global:
+            path = "./spammer_results/"+dataset_name+"/"+save_name+"_all.txt"
+        else:
+            path = "./spammer_results/"+dataset_name+"/"+save_name+"_all_sample_global.txt"
         
         with open(path, 'w') as file:
             for i, pred in zip(all_test_idx, output_test_all_preds):
@@ -359,7 +365,7 @@ class run_wrapper():
             print("start loading features")
             
             features = np.loadtxt(args.data_path+"UserFeature.txt", delimiter='\t')
-            features = augment_feature(features, self.nx_G)
+            # features = augment_feature(features, self.nx_G)
             self.features = torch.from_numpy(features).float().cuda()
 
             print("start loading labels")
@@ -431,9 +437,11 @@ class run_wrapper():
         pool = idx_non_test
         print('len(idx_non_test): {}'.format(len(idx_non_test)))
         np.random.seed() # cancel the fixed seed
-        all_test_idx = list(set(self.idx_test).union(set(pool)))
-
-        pool = list(set(self.idx_test.cpu().numpy().tolist()).union(set(pool)))
+        if args.sample_global:
+            all_test_idx = list(set(self.idx_test).union(set(pool)))
+            pool = list(set(self.idx_test.cpu().numpy().tolist()).union(set(pool)))
+        else:
+            all_test_idx = list(set(self.idx_test))
 
         if args.model == 'GCN':
             args.lr = 0.01
@@ -496,7 +504,10 @@ class run_wrapper():
             selected_nodes = np.append(selected_nodes, idx_train)
             pool = list(set(pool) - set(idx_train))
 
-            all_test_idx = list(set(self.idx_test).union(set(pool)))
+            if args.sample_global:
+                all_test_idx = list(set(pool))
+            else:
+                all_test_idx = list(set(self.idx_test))
             
 
             if args.model == 'GCN':
@@ -507,7 +518,7 @@ class run_wrapper():
                                                                              args.dropout)
             print(f"the number of labels is {num_labeled_list[i]}")
             if args.model == 'GCN':
-                acc_test, micro_test, macro_test, f1_test, recall_test, precision_test = test_GCN(model, self.adj, self.idx_test, self.features, self.labels[self.idx_test], self.labels[all_test_idx], all_test_idx, test_idx=self.idx_test_ori, save_name=args.test_percents, dataset_name=args.dataset)
+                acc_test, micro_test, macro_test, f1_test, recall_test, precision_test = test_GCN(model, self.adj, self.idx_test, self.features, self.labels[self.idx_test], self.labels[all_test_idx], all_test_idx, test_idx=self.idx_test_ori, save_name=args.test_percents, dataset_name=args.dataset, sample_global=args.sample_global)
             
 
             print('f1_val_isr: {}'.format(f1_val))
@@ -549,7 +560,10 @@ if __name__ == '__main__':
     if args.dataset == 'spammer':
         num_labeled_list = [i for i in range(10,151,10)]
     elif args.dataset == 'amazon':
-        num_labeled_list = [i for i in range(10,801,10)]
+        if args.test_percents in ['50percent', '30percent', '10percent']:
+            num_labeled_list = [i for i in range(10,721,10)]
+        else:
+            num_labeled_list = [i for i in range(10,401,10)]
     elif args.dataset == 'yelp':
         num_labeled_list = [10, 20, 30, 40] + [i for i in range(50,1001,50)]
     num_interval = len(num_labeled_list)

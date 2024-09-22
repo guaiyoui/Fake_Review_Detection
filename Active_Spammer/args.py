@@ -52,7 +52,7 @@ def get_citation_args():
     parser.add_argument('--data_path', type=str, default='../Spammer-ISR-Initial-Exp/ISR-spammer-detection/Data/', help='query strategy')
 
     parser.add_argument('--test_percents', type=str, default='50percent', help='test_percents')
-
+    parser.add_argument('--sample_global', action='store_true', default=False, help='sample from training or training+testing')
 
     args, _ = parser.parse_known_args()
     args.cuda = not args.no_cuda and torch.cuda.is_available()

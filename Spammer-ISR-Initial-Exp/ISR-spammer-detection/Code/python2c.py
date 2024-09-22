@@ -10,7 +10,13 @@ path = '../Data/'
 # rf_features = 'userfeatures2021.txt'#Read User Feature for LR Training
 rf_features = 'UserFeature.txt'#Read User Feature for LR Training
 # rf_label = '5percent/test_4.csv'  #Load Testing data: index and label; You should revise when training data is changed.
-rf_label = 'Training_Testing/5percent/test_4.csv'  #Load Testing data: index and label; You should revise when training data is changed.
+# rf_label = 'Training_Testing/5percent/test_4.csv'  #Load Testing data: index and label; You should revise 
+# rf_label = 'Training_Testing/10percent/test_4.csv'  #Load Testing data: index and label; You should revise 
+# rf_label = 'Training_Testing/30percent/test_4.csv'  #Load Testing data: index and label; You should revise 
+rf_label = 'Training_Testing/50percent/test_4.csv'  #Load Testing data: index and label; You should revise 
+
+
+# when training data is changed.
 
 
 def LR_First(L1, L2, L3):
