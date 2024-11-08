@@ -157,7 +157,8 @@ def query_random(number, nodes_idx):
 
 
 def query_largest_degree(nx_graph, number, nodes_idx):
-    degree_dict = nx_graph.degree(nodes_idx)
+    degree_dict = dict(nx_graph.degree(nodes_idx))
+    # print(degree_dict)
     idx_topk = nlargest(number, degree_dict, key=degree_dict.get)
     # print(idx_topk)
     return idx_topk
@@ -195,6 +196,25 @@ def query_uncertainty_GCN(model, adj, features, number, nodes_idx):
     # print('indices: ', list(indices.cpu().numpy()))
     indices = list(indices.cpu().numpy())
     return np.array(nodes_idx)[indices]
+
+
+def query_uncertainty_GCN_ComGA(model, modularity_matrix, adj, features, number, nodes_idx):
+    model.eval()
+    # output = model(features[nodes_idx])
+    output, b_recon = model(modularity_matrix, features, adj)
+    output = output[nodes_idx, :]
+    prob_output = F.softmax(output, dim=1).detach()
+    # log_prob_output = torch.log(prob_output).detach()
+    log_prob_output = F.log_softmax(output, dim=1).detach()
+    # print('prob_output: ', prob_output)
+    # print('log_prob_output: ', log_prob_output)
+    entropy = -torch.sum(prob_output*log_prob_output, dim=1)
+    # print('entropy: ', entropy)
+    indices = torch.topk(entropy, number, largest=True)[1]
+    # print('indices: ', list(indices.cpu().numpy()))
+    indices = list(indices.cpu().numpy())
+    return np.array(nodes_idx)[indices]
+
 
 def query_random_uncertainty(model, features, number, nodes_idx):
     model.eval()
@@ -249,7 +269,7 @@ def query_featprop(features, number, nodes_idx):
     # print('cluster: ', clusters)
     # print('medoids: ', medoids)
     # print('new indices: ', np.array(nodes_idx)[medoids])
-    return np.array(nodes_idx)[medoids]
+    return np.array(nodes_idx)[medoids], medoids
 
 def query_new_featprop(features, num_points, nodes_idx):
     from pyclustering.cluster.kmedoids import kmedoids
@@ -310,6 +330,7 @@ def query_ours(dis_features, model, number, nodes_idx, reweight_flag=True):
 def query_ours_increment(dis_features, model, number, fixed_medoids, nodes_idx, reweight_flag=True):
     if reweight_flag:
         dis_features = reweight(dis_features, model)
+    # print(f"nodes_idx is {len(nodes_idx)}: {nodes_idx}")
     return query_featprop_increment(dis_features, number, fixed_medoids, nodes_idx)
 
 
@@ -380,7 +401,8 @@ def new_k_medoids(fixed_medoids, distances, k=3):
     m = distances.shape[0] # number of points
 
     # Pick k random medoids.
-    print('k: {}'.format(k))
+    # print('k: {}'.format(k))
+    print(f"m: {m}, k: {k}")
     # curr_medoids = np.array([-1]*k)
     # while not len(np.unique(curr_medoids)) == k:
     #     curr_medoids = np.array([random.randint(0, m - 1) for _ in range(k)])
@@ -389,7 +411,7 @@ def new_k_medoids(fixed_medoids, distances, k=3):
     # np.random.shuffle(curr_medoids)
     # curr_medoids = curr_medoids[:k]
     candidates = np.array(list(set(np.arange(m)) - set(fixed_medoids)))
-    curr_medoids = np.random.choice(candidates, size=k, replace=False)
+    curr_medoids = np.random.choice(candidates, size=min(len(candidates), k), replace=False)
     curr_medoids[:fixed_num] = fixed_medoids
     old_medoids = np.array([-1]*k) # Doesn't matter what we initialize these to.
     new_medoids = np.array([-1]*k)
@@ -397,11 +419,17 @@ def new_k_medoids(fixed_medoids, distances, k=3):
 
     # Until the medoids stop updating, do the following:
     num_iter = 0
-    while not ((old_medoids == curr_medoids).all()):
+    old_medoids = np.array(old_medoids)
+    curr_medoids = np.array(curr_medoids)
+
+    # while not ((old_medoids == curr_medoids).all()):
+    while not np.array_equal(old_medoids, curr_medoids):
         num_iter += 1
         # print('curr_medoids: ', curr_medoids)
         # Assign each point to cluster with closest medoid.
         t1 = perf_counter()
+        # print(f'curr_medoids: {curr_medoids}')
+        # print(f"distances: {distances}")
         clusters = assign_points_to_clusters(curr_medoids, distances)
         # print(f'clusters: {clusters}')
         # print('time assign point ot clusters: {}s'.format(perf_counter() - t1))

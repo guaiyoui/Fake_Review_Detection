@@ -19,7 +19,7 @@ def get_citation_args():
     parser.add_argument('--dataset', type=str, default="amazon",
                         help='Dataset to use.')
     parser.add_argument('--model', type=str, default="SGC",
-                        choices=["SGC", "GCN"],
+                        choices=["SGC", "GCN", "GCN_update"],
                         help='model to use.')
     parser.add_argument('--feature', type=str, default="non",
                         choices=['non', 'mul', 'cat', 'adj'],
@@ -44,6 +44,15 @@ def get_citation_args():
                         choices=[0, 1],
                         help='to use adaptive weighting')
     parser.add_argument('--lambdaa', type=float, default=0.99,
+                        help='control combination')
+    
+    parser.add_argument('--weight_loss_subgraph', type=float, default=0.01,
+                        help='control combination')
+    parser.add_argument('--weight_loss_reconstruction', type=float, default=1.0,
+                        help='control combination')
+    parser.add_argument('--weight_kl_loss', type=float, default=0.1,
+                        help='control combination')
+    parser.add_argument('--weight_t_loss', type=float, default=0.01,
                         help='control combination')
     
     parser.add_argument('--save_name', type=str, default="v1",

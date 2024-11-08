@@ -1,0 +1,903 @@
+start loading J01Network
+start constructing adj
+tensor(indices=tensor([[   8,    8,   21,  ..., 9423, 9423, 9423],
+                       [2170, 5213, 1474,  ..., 9418, 9419, 9421]]),
+       values=tensor([0.5000, 0.5000, 0.2500,  ..., 0.3333, 0.3333, 0.3333]),
+       device='cuda:0', size=(9424, 9424), nnz=181292, layout=torch.sparse_coo)
+start loading features
+start loading labels
+start loading modularity matrix
+self.labels: (tensor([0, 0, 0,  ..., 0, 1, 0], device='cuda:0'), torch.Size([9424]))
+self.adj: tensor(indices=tensor([[   8,    8,   21,  ..., 9423, 9423, 9423],
+                       [2170, 5213, 1474,  ..., 9418, 9419, 9421]]),
+       values=tensor([0.5000, 0.5000, 0.2500,  ..., 0.3333, 0.3333, 0.3333]),
+       device='cuda:0', size=(9424, 9424), nnz=181292, layout=torch.sparse_coo)
+self.feature: (tensor([[2.9971e-01, 6.0465e-02, 3.8314e-03,  ..., 6.8966e-02, 7.1024e-02,
+         8.2219e-01],
+        [1.3132e-01, 4.6512e-02, 7.6628e-03,  ..., 7.2464e-02, 7.0725e-02,
+         8.4524e-01],
+        [3.4525e-01, 4.6512e-02, 2.5543e-03,  ..., 7.9646e-02, 5.8153e-02,
+         8.5975e-01],
+        ...,
+        [0.0000e+00, 0.0000e+00, 1.2771e-03,  ..., 2.2727e-01, 4.6209e-02,
+         8.7654e-01],
+        [2.6476e-04, 4.6512e-03, 4.7254e-02,  ..., 3.7037e-02, 5.9044e-02,
+         8.9359e-01],
+        [0.0000e+00, 0.0000e+00, 0.0000e+00,  ..., 2.2727e-01, 1.2836e-03,
+         8.7665e-01]], device='cuda:0'), torch.Size([9424, 10]))
+self.idx_test is 7537, self.idx_non_test is 837
+finished loading dataset
+current seed is 300
+len(idx_non_test) is 837
+len(idx_non_test): 822
+macro_val: 0.37499999999999994
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+-------------initial results------------
+micro_val: 0.6000, macro_val: 0.3750
+strategy:  uncertainty
+============sample only in training=======
+7537
+8349
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 10
+preds.shape: (8349,), labels.shape: (8349,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.8339070235840116, f1_test_all: 0.7036625971143174, macro_test: 0.8368404588902683, f1_test: 0.7094430992736077
+f1_val_isr: 0.0
+f1_test_isr: 0.7094430992736077
+============sample only in training=======
+7537
+8339
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 20
+preds.shape: (8339,), labels.shape: (8339,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.8273261258908282, f1_test_all: 0.6944299843831337, macro_test: 0.8289844547034884, f1_test: 0.6980169971671388
+f1_val_isr: 0.0
+f1_test_isr: 0.6980169971671388
+============sample only in training=======
+7537
+8329
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 30
+preds.shape: (8329,), labels.shape: (8329,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.8276798626730413, f1_test_all: 0.6966966966966966, macro_test: 0.8302400174815494, f1_test: 0.7020585048754062
+f1_val_isr: 0.0
+f1_test_isr: 0.7020585048754062
+============sample only in training=======
+7537
+8319
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 40
+preds.shape: (8319,), labels.shape: (8319,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.8511707329028612, f1_test_all: 0.7377463365336028, macro_test: 0.8526327856780179, f1_test: 0.7411444141689373
+f1_val_isr: 0.0
+f1_test_isr: 0.7411444141689373
+============sample only in training=======
+7537
+8309
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 50
+preds.shape: (8309,), labels.shape: (8309,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.8480492024219355, f1_test_all: 0.7334963325183373, macro_test: 0.8493843808985154, f1_test: 0.7368972746331237
+f1_val_isr: 0.0
+f1_test_isr: 0.7368972746331237
+============sample only in training=======
+7537
+8299
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 60
+preds.shape: (8299,), labels.shape: (8299,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.8619176577275643, f1_test_all: 0.7594581971041569, macro_test: 0.8630261593511861, f1_test: 0.7623811905952976
+f1_val_isr: 0.0
+f1_test_isr: 0.7623811905952976
+============sample only in training=======
+7537
+8289
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 70
+preds.shape: (8289,), labels.shape: (8289,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.8807741050514739, f1_test_all: 0.7915668423574508, macro_test: 0.8808454986868178, f1_test: 0.7926455566905005
+f1_val_isr: 0.0
+f1_test_isr: 0.7926455566905005
+============sample only in training=======
+7537
+8279
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 80
+preds.shape: (8279,), labels.shape: (8279,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.8978908303781401, f1_test_all: 0.8202020202020203, macro_test: 0.8978598991289828, f1_test: 0.8210075026795284
+f1_val_isr: 0.0
+f1_test_isr: 0.8210075026795284
+============sample only in training=======
+7537
+8269
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 90
+preds.shape: (8269,), labels.shape: (8269,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9076507344105631, f1_test_all: 0.8369453044375645, macro_test: 0.9067946767233277, f1_test: 0.8362445414847162
+f1_val_isr: 0.0
+f1_test_isr: 0.8362445414847162
+============sample only in training=======
+7537
+8259
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 100
+preds.shape: (8259,), labels.shape: (8259,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9118856130755691, f1_test_all: 0.8444902162718847, macro_test: 0.9115598581794931, f1_test: 0.8447339847991313
+f1_val_isr: 0.0
+f1_test_isr: 0.8447339847991313
+============sample only in training=======
+7537
+8249
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 110
+preds.shape: (8249,), labels.shape: (8249,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9150169704410904, f1_test_all: 0.8501026694045176, macro_test: 0.9152062430541423, f1_test: 0.8512931034482758
+f1_val_isr: 0.0
+f1_test_isr: 0.8512931034482758
+============sample only in training=======
+7537
+8239
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 120
+preds.shape: (8239,), labels.shape: (8239,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9199476506149189, f1_test_all: 0.8583464981569247, macro_test: 0.9201832917739008, f1_test: 0.8595132743362832
+f1_val_isr: 0.0
+f1_test_isr: 0.8595132743362832
+============sample only in training=======
+7537
+8229
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 130
+preds.shape: (8229,), labels.shape: (8229,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.913194500159568, f1_test_all: 0.8458197611292073, macro_test: 0.91270494460438, f1_test: 0.8457598178713717
+f1_val_isr: 0.0
+f1_test_isr: 0.8457598178713717
+============sample only in training=======
+7537
+8219
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 140
+preds.shape: (8219,), labels.shape: (8219,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9187650561975107, f1_test_all: 0.8559139784946237, macro_test: 0.918499600178652, f1_test: 0.8563443264393514
+f1_val_isr: 0.0
+f1_test_isr: 0.8563443264393514
+============sample only in training=======
+7537
+8209
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 150
+preds.shape: (8209,), labels.shape: (8209,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9234075940133423, f1_test_all: 0.8641975308641975, macro_test: 0.9229573148967702, f1_test: 0.8642936596218022
+f1_val_isr: 0.0
+f1_test_isr: 0.8642936596218022
+============sample only in training=======
+7537
+8199
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 160
+preds.shape: (8199,), labels.shape: (8199,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9204935135381898, f1_test_all: 0.8588490770901195, macro_test: 0.9199371325691998, f1_test: 0.8587507034327518
+f1_val_isr: 0.0
+f1_test_isr: 0.8587507034327518
+============sample only in training=======
+7537
+8189
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 170
+preds.shape: (8189,), labels.shape: (8189,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9217596398686392, f1_test_all: 0.8612903225806452, macro_test: 0.921642158873629, f1_test: 0.8620498614958448
+f1_val_isr: 0.0
+f1_test_isr: 0.8620498614958448
+============sample only in training=======
+7537
+8179
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 180
+preds.shape: (8179,), labels.shape: (8179,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9130286177819434, f1_test_all: 0.845303867403315, macro_test: 0.9120607006531207, f1_test: 0.8446215139442231
+f1_val_isr: 0.0
+f1_test_isr: 0.8446215139442231
+============sample only in training=======
+7537
+8169
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 190
+preds.shape: (8169,), labels.shape: (8169,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9224784647674494, f1_test_all: 0.8619340413638905, macro_test: 0.9219828187707994, f1_test: 0.8620492272467086
+f1_val_isr: 0.0
+f1_test_isr: 0.8620492272467086
+============sample only in training=======
+7537
+8159
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 200
+preds.shape: (8159,), labels.shape: (8159,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9160534185042064, f1_test_all: 0.8498550724637681, macro_test: 0.9160864939794162, f1_test: 0.8510888758092997
+f1_val_isr: 0.0
+f1_test_isr: 0.8510888758092997
+============sample only in training=======
+7537
+8149
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 210
+preds.shape: (8149,), labels.shape: (8149,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.914351412119721, f1_test_all: 0.847285067873303, macro_test: 0.9150856241550248, f1_test: 0.85
+f1_val_isr: 0.0
+f1_test_isr: 0.85
+============sample only in training=======
+7537
+8139
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 220
+preds.shape: (8139,), labels.shape: (8139,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9150160611759814, f1_test_all: 0.8483466362599772, macro_test: 0.9157901992412085, f1_test: 0.8510882016036655
+f1_val_isr: 0.0
+f1_test_isr: 0.8510882016036655
+============sample only in training=======
+7537
+8129
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 230
+preds.shape: (8129,), labels.shape: (8129,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9271135762964167, f1_test_all: 0.8703394546466332, macro_test: 0.927237797343219, f1_test: 0.8717948717948717
+f1_val_isr: 0.0
+f1_test_isr: 0.8717948717948717
+============sample only in training=======
+7537
+8119
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 240
+preds.shape: (8119,), labels.shape: (8119,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9267258106729962, f1_test_all: 0.8701298701298701, macro_test: 0.926814764557049, f1_test: 0.8715447154471544
+f1_val_isr: 0.0
+f1_test_isr: 0.8715447154471544
+============sample only in training=======
+7537
+8109
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 250
+preds.shape: (8109,), labels.shape: (8109,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.930515004876468, f1_test_all: 0.876265466816648, macro_test: 0.9307147312781117, f1_test: 0.8777464788732395
+f1_val_isr: 0.0
+f1_test_isr: 0.8777464788732395
+============sample only in training=======
+7537
+8099
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 260
+preds.shape: (8099,), labels.shape: (8099,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9293772255460686, f1_test_all: 0.8743718592964824, macro_test: 0.9295648040476578, f1_test: 0.8758389261744967
+f1_val_isr: 0.0
+f1_test_isr: 0.8758389261744967
+============sample only in training=======
+7537
+8089
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 270
+preds.shape: (8089,), labels.shape: (8089,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9290871053951262, f1_test_all: 0.8738839285714286, macro_test: 0.9292817542406202, f1_test: 0.8753493571827836
+f1_val_isr: 0.0
+f1_test_isr: 0.8753493571827836
+============sample only in training=======
+7537
+8079
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 280
+preds.shape: (8079,), labels.shape: (8079,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9290794105438461, f1_test_all: 0.8737316798196166, macro_test: 0.9292994753351849, f1_test: 0.8752117447769621
+f1_val_isr: 0.0
+f1_test_isr: 0.8752117447769621
+============sample only in training=======
+7537
+8069
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 290
+preds.shape: (8069,), labels.shape: (8069,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9319896518581657, f1_test_all: 0.879108635097493, macro_test: 0.9322341629111364, f1_test: 0.8805803571428571
+f1_val_isr: 0.0
+f1_test_isr: 0.8805803571428571
+============sample only in training=======
+7537
+8059
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 300
+preds.shape: (8059,), labels.shape: (8059,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9190107032515369, f1_test_all: 0.8553166763509588, macro_test: 0.9191957781201526, f1_test: 0.8568102444703143
+f1_val_isr: 0.0
+f1_test_isr: 0.8568102444703143
+============sample only in training=======
+7537
+8049
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 310
+preds.shape: (8049,), labels.shape: (8049,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9298931621211537, f1_test_all: 0.8752117447769622, macro_test: 0.9301566231135818, f1_test: 0.8766968325791854
+f1_val_isr: 0.0
+f1_test_isr: 0.8766968325791854
+============sample only in training=======
+7537
+8039
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 320
+preds.shape: (8039,), labels.shape: (8039,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.929314911221272, f1_test_all: 0.8742985409652075, macro_test: 0.9295750578021424, f1_test: 0.8757729061270377
+f1_val_isr: 0.0
+f1_test_isr: 0.8757729061270377
+============sample only in training=======
+7537
+8029
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 330
+preds.shape: (8029,), labels.shape: (8029,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9288781990614129, f1_test_all: 0.8737541528239203, macro_test: 0.9291268627589387, f1_test: 0.8752079866888519
+f1_val_isr: 0.0
+f1_test_isr: 0.8752079866888519
+============sample only in training=======
+7537
+8019
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 340
+preds.shape: (8019,), labels.shape: (8019,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9275489466992464, f1_test_all: 0.8713968957871397, macro_test: 0.9277976737017067, f1_test: 0.8728484175458079
+f1_val_isr: 0.0
+f1_test_isr: 0.8728484175458079
+============sample only in training=======
+7537
+8009
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 350
+preds.shape: (8009,), labels.shape: (8009,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9283004791873135, f1_test_all: 0.8726256983240224, macro_test: 0.928578404808416, f1_test: 0.8740906547285955
+f1_val_isr: 0.0
+f1_test_isr: 0.8740906547285955
+============sample only in training=======
+7537
+7999
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 360
+preds.shape: (7999,), labels.shape: (7999,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9306281649611092, f1_test_all: 0.8764940239043826, macro_test: 0.9309635462144015, f1_test: 0.8779931584948689
+f1_val_isr: 0.0
+f1_test_isr: 0.8779931584948689
+============sample only in training=======
+7537
+7989
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 370
+preds.shape: (7989,), labels.shape: (7989,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9300214839963965, f1_test_all: 0.875766016713092, macro_test: 0.9303341861703271, f1_test: 0.8772321428571429
+f1_val_isr: 0.0
+f1_test_isr: 0.8772321428571429
+============sample only in training=======
+7537
+7979
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 380
+preds.shape: (7979,), labels.shape: (7979,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9306170801701782, f1_test_all: 0.8769994484280198, macro_test: 0.9309333950909369, f1_test: 0.878453038674033
+f1_val_isr: 0.0
+f1_test_isr: 0.878453038674033
+============sample only in training=======
+7537
+7969
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 390
+preds.shape: (7969,), labels.shape: (7969,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9324918886916077, f1_test_all: 0.8802660753880266, macro_test: 0.9328423777225483, f1_test: 0.8817323709050527
+f1_val_isr: 0.0
+f1_test_isr: 0.8817323709050527
+============sample only in training=======
+7537
+7959
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 400
+preds.shape: (7959,), labels.shape: (7959,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9319051160206813, f1_test_all: 0.8793388429752066, macro_test: 0.9322537829041, f1_test: 0.880794701986755
+f1_val_isr: 0.0
+f1_test_isr: 0.880794701986755
+============sample only in training=======
+7537
+7949
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 410
+preds.shape: (7949,), labels.shape: (7949,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9294271796610685, f1_test_all: 0.8746486790331647, macro_test: 0.9297911424735007, f1_test: 0.8761261261261261
+f1_val_isr: 0.0
+f1_test_isr: 0.8761261261261261
+============sample only in training=======
+7537
+7939
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 420
+preds.shape: (7939,), labels.shape: (7939,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9293375505385204, f1_test_all: 0.8746518105849581, macro_test: 0.9297008605900574, f1_test: 0.8761160714285714
+f1_val_isr: 0.0
+f1_test_isr: 0.8761160714285714
+============sample only in training=======
+7537
+7929
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 430
+preds.shape: (7929,), labels.shape: (7929,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.928561292545967, f1_test_all: 0.873015873015873, macro_test: 0.9289514038721657, f1_test: 0.87450312322544
+f1_val_isr: 0.0
+f1_test_isr: 0.87450312322544
+============sample only in training=======
+7537
+7919
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 440
+preds.shape: (7919,), labels.shape: (7919,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9333436079399791, f1_test_all: 0.8818635607321132, macro_test: 0.9337564662749234, f1_test: 0.8833333333333333
+f1_val_isr: 0.0
+f1_test_isr: 0.8833333333333333
+============sample only in training=======
+7537
+7909
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 450
+preds.shape: (7909,), labels.shape: (7909,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9346413346212139, f1_test_all: 0.8840336134453781, macro_test: 0.935087154015833, f1_test: 0.8855218855218856
+f1_val_isr: 0.0
+f1_test_isr: 0.8855218855218856
+============sample only in training=======
+7537
+7899
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 460
+preds.shape: (7899,), labels.shape: (7899,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9335006281651104, f1_test_all: 0.8818181818181818, macro_test: 0.9339649949959332, f1_test: 0.8833238474672739
+f1_val_isr: 0.0
+f1_test_isr: 0.8833238474672739
+============sample only in training=======
+7537
+7889
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 470
+preds.shape: (7889,), labels.shape: (7889,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9320082334827866, f1_test_all: 0.8791334093500569, macro_test: 0.9324762384737377, f1_test: 0.8806396344945745
+f1_val_isr: 0.0
+f1_test_isr: 0.8806396344945745
+============sample only in training=======
+7537
+7879
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 480
+preds.shape: (7879,), labels.shape: (7879,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9358439763014712, f1_test_all: 0.8861330326944757, macro_test: 0.9363375366140352, f1_test: 0.8876341050254094
+f1_val_isr: 0.0
+f1_test_isr: 0.8876341050254094
+============sample only in training=======
+7537
+7869
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 490
+preds.shape: (7869,), labels.shape: (7869,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.931453907710891, f1_test_all: 0.8783783783783784, macro_test: 0.931925401331732, f1_test: 0.8798646362098138
+f1_val_isr: 0.0
+f1_test_isr: 0.8798646362098138
+============sample only in training=======
+7537
+7859
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 500
+preds.shape: (7859,), labels.shape: (7859,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9227313909826409, f1_test_all: 0.8630519843487983, macro_test: 0.9225847395839122, f1_test: 0.8635346756152126
+f1_val_isr: 0.0
+f1_test_isr: 0.8635346756152126
+============sample only in training=======
+7537
+7849
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 510
+preds.shape: (7849,), labels.shape: (7849,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9236831457860446, f1_test_all: 0.8650137741046832, macro_test: 0.9235447109044619, f1_test: 0.8654906284454245
+f1_val_isr: 0.0
+f1_test_isr: 0.8654906284454245
+============sample only in training=======
+7537
+7839
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 520
+preds.shape: (7839,), labels.shape: (7839,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.927059456849661, f1_test_all: 0.8709141274238227, macro_test: 0.9269569256629745, f1_test: 0.8713968957871397
+f1_val_isr: 0.0
+f1_test_isr: 0.8713968957871397
+============sample only in training=======
+7537
+7829
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 530
+preds.shape: (7829,), labels.shape: (7829,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9307249661125743, f1_test_all: 0.8774834437086093, macro_test: 0.9306525383573947, f1_test: 0.8779679734953064
+f1_val_isr: 0.0
+f1_test_isr: 0.8779679734953064
+============sample only in training=======
+7537
+7819
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 540
+preds.shape: (7819,), labels.shape: (7819,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9282213946720679, f1_test_all: 0.8728291316526611, macro_test: 0.9281565592660451, f1_test: 0.8733183856502242
+f1_val_isr: 0.0
+f1_test_isr: 0.8733183856502242
+============sample only in training=======
+7537
+7809
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 550
+preds.shape: (7809,), labels.shape: (7809,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9280678361284969, f1_test_all: 0.8727070594774875, macro_test: 0.9280092942478015, f1_test: 0.8731924360400444
+f1_val_isr: 0.0
+f1_test_isr: 0.8731924360400444
+============sample only in training=======
+7537
+7799
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 560
+preds.shape: (7799,), labels.shape: (7799,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9301516027124639, f1_test_all: 0.876889848812095, macro_test: 0.9300982649250751, f1_test: 0.8773635872501351
+f1_val_isr: 0.0
+f1_test_isr: 0.8773635872501351
+============sample only in training=======
+7537
+7789
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 570
+preds.shape: (7789,), labels.shape: (7789,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9298098785547132, f1_test_all: 0.8756330894766461, macro_test: 0.9297911424735007, f1_test: 0.8761261261261261
+f1_val_isr: 0.0
+f1_test_isr: 0.8761261261261261
+============sample only in training=======
+7537
+7779
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 580
+preds.shape: (7779,), labels.shape: (7779,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9297216078124705, f1_test_all: 0.8755605381165918, macro_test: 0.9297119025930323, f1_test: 0.8760515984296129
+f1_val_isr: 0.0
+f1_test_isr: 0.8760515984296129
+============sample only in training=======
+7537
+7769
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 590
+preds.shape: (7769,), labels.shape: (7769,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9295794323507096, f1_test_all: 0.8752117447769622, macro_test: 0.9295849173265931, f1_test: 0.8757062146892655
+f1_val_isr: 0.0
+f1_test_isr: 0.8757062146892655
+============sample only in training=======
+7537
+7759
+macro_val: 0.4736842105263158
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 600
+preds.shape: (7759,), labels.shape: (7759,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9257789977686673, f1_test_all: 0.8688433868289983, macro_test: 0.9257686584529977, f1_test: 0.8693244739756367
+f1_val_isr: 0.0
+f1_test_isr: 0.8693244739756367
+============sample only in training=======
+7537
+7749
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 610
+preds.shape: (7749,), labels.shape: (7749,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.929881842606592, f1_test_all: 0.876042245692051, macro_test: 0.9296218761416941, f1_test: 0.876042245692051
+f1_val_isr: 0.0
+f1_test_isr: 0.876042245692051
+============sample only in training=======
+7537
+7739
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 620
+preds.shape: (7739,), labels.shape: (7739,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9284143693093845, f1_test_all: 0.8729977116704805, macro_test: 0.9281692745655419, f1_test: 0.8729977116704805
+f1_val_isr: 0.0
+f1_test_isr: 0.8729977116704805
+============sample only in training=======
+7537
+7729
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 630
+preds.shape: (7729,), labels.shape: (7729,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9224132862389453, f1_test_all: 0.8627450980392157, macro_test: 0.9221543986696944, f1_test: 0.8627450980392157
+f1_val_isr: 0.0
+f1_test_isr: 0.8627450980392157
+============sample only in training=======
+7537
+7719
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 640
+preds.shape: (7719,), labels.shape: (7719,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9284584600820239, f1_test_all: 0.8733031674208145, macro_test: 0.9282343283368915, f1_test: 0.8733031674208145
+f1_val_isr: 0.0
+f1_test_isr: 0.8733031674208145
+============sample only in training=======
+7537
+7709
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 650
+preds.shape: (7709,), labels.shape: (7709,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9318721437871786, f1_test_all: 0.8795986622073578, macro_test: 0.931666800983197, f1_test: 0.8795986622073578
+f1_val_isr: 0.0
+f1_test_isr: 0.8795986622073578
+============sample only in training=======
+7537
+7699
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 660
+preds.shape: (7699,), labels.shape: (7699,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9295582637973943, f1_test_all: 0.8754208754208755, macro_test: 0.9293595499584065, f1_test: 0.8754208754208755
+f1_val_isr: 0.0
+f1_test_isr: 0.8754208754208755
+============sample only in training=======
+7537
+7689
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 670
+preds.shape: (7689,), labels.shape: (7689,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9301020730730282, f1_test_all: 0.8764673001676915, macro_test: 0.9299159985972067, f1_test: 0.8764673001676915
+f1_val_isr: 0.0
+f1_test_isr: 0.8764673001676915
+============sample only in training=======
+7537
+7679
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 680
+preds.shape: (7679,), labels.shape: (7679,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9328845904128336, f1_test_all: 0.8812217194570136, macro_test: 0.9327196828158358, f1_test: 0.8812217194570136
+f1_val_isr: 0.0
+f1_test_isr: 0.8812217194570136
+============sample only in training=======
+7537
+7669
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 690
+preds.shape: (7669,), labels.shape: (7669,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9313600660334045, f1_test_all: 0.8786516853932583, macro_test: 0.9312018769978176, f1_test: 0.8786516853932583
+f1_val_isr: 0.0
+f1_test_isr: 0.8786516853932583
+============sample only in training=======
+7537
+7659
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 700
+preds.shape: (7659,), labels.shape: (7659,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9331247230837394, f1_test_all: 0.8817567567567567, macro_test: 0.9329824541792506, f1_test: 0.8817567567567567
+f1_val_isr: 0.0
+f1_test_isr: 0.8817567567567567
+============sample only in training=======
+7537
+7649
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 710
+preds.shape: (7649,), labels.shape: (7649,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9326284552443983, f1_test_all: 0.8811111111111111, macro_test: 0.9324946846801601, f1_test: 0.8811111111111111
+f1_val_isr: 0.0
+f1_test_isr: 0.8811111111111111
+============sample only in training=======
+7537
+7639
+macro_val: 1.0
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 720
+preds.shape: (7639,), labels.shape: (7639,)
+preds.shape: (7537,), labels.shape: (7537,)
+macro_test_all: 0.9268079620472269, f1_test_all: 0.8708240534521158, macro_test: 0.9266757712658982, f1_test: 0.8708240534521158
+f1_val_isr: 0.0
+f1_test_isr: 0.8708240534521158
+AL Time: 0.42596669401973486s

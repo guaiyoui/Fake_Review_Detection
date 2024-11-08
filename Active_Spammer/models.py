@@ -6,6 +6,64 @@ import math
 from torch_geometric.nn import GCNConv, MixHopConv, GINConv, MLP, GATConv, LayerNorm, GraphNorm
 from torch.nn import BatchNorm1d
 # from layer import GCNConv
+from layers import AvgReadout, Discriminator, GCN
+from torch.nn.parameter import Parameter
+
+class distance_based(nn.Module):
+    """
+    distance_based classifier.
+    The input feature should be DGI features.
+    """
+    def __init__(self, nfeat, nembed, nclass):
+        super(distance_based, self).__init__()
+        self.nfeat = nfeat
+        self.nembed = nembed
+        self.nclass = nclass
+        self.W = nn.Linear(nfeat, nembed)
+        self.class_embed = nn.Embedding(nclass, nembed)
+
+    def forward(self, x):
+        u = self.W(x)
+        num_nodes = u.size(0)
+        u = u.view(num_nodes, -1, self.nembed)
+        class_embed = self.class_embed.weight.view(-1, self.nclass, self.nembed)
+        distances = torch.norm(u - class_embed, dim=-1)
+        return distances
+
+    def new_features(self, x):
+        u = self.W(x)
+        return u.detach()
+
+
+class DGI(nn.Module):
+    def __init__(self, n_in, n_h, activation):
+        super(DGI, self).__init__()
+        # self.fc = nn.Linear(n_in, n_h)
+        self.gcn = GCN(n_in, n_h, activation)
+        self.read = AvgReadout()
+        self.act = nn.PReLU()
+
+        self.sigm = nn.Sigmoid()
+
+        self.disc = Discriminator(n_h)
+
+    def forward(self, x_1, x_2, adj, sparse, msk, samp_bias1, samp_bias2):
+        h_1 = self.gcn(x_1, adj, sparse)
+
+        c = self.read(h_1, msk)
+        c = self.sigm(c)
+        h_2 = self.gcn(x_2, adj, sparse)
+
+        ret = self.disc(c, h_1, h_2, samp_bias1, samp_bias2)
+        return ret
+
+    # Detach the return variables
+    def embed(self, seq, adj, sparse, msk):
+        h_1 = self.gcn(seq, adj, sparse)
+        # h_1 = self.sigm(self.fc(seq))
+        c = self.read(h_1, msk)
+
+        return h_1.detach(), c.detach()
 
 class GraphConvolution(Module):
     """
@@ -273,8 +331,92 @@ class GIN_adv(torch.nn.Module):
     def get_node_embedding(self):
         return self.node_embedding
 
+def target_distribution(q):
+    weight = q**2 / q.sum(0)
+    return (weight.t() / weight.sum(1)).t()
 
-def get_model(model_opt, nfeat, nclass, nhid=0, dropout=0, cuda=True):
+class tGCN(torch.nn.Module):
+    def __init__(self, num_features, num_nodes, num_classes, num_layers=2, hidden_dim=32, n_clusters=10):
+        super(tGCN, self).__init__()
+
+        self.convs = torch.nn.ModuleList()
+        self.autoencoder = torch.nn.ModuleList()
+        self.bns = torch.nn.ModuleList()
+
+        self.convs.append(GCNConv(num_features, hidden_dim))
+        self.autoencoder.append(nn.Linear(num_nodes, hidden_dim))
+        self.bns.append(nn.BatchNorm1d(hidden_dim))
+
+        for _ in range(num_layers - 1):
+            self.convs.append(GCNConv(hidden_dim, hidden_dim))
+            self.autoencoder.append(nn.Linear(hidden_dim, hidden_dim))
+            self.bns.append(nn.BatchNorm1d(hidden_dim))
+        
+        for _ in range(num_layers-1):
+            self.autoencoder.append(nn.Linear(hidden_dim, hidden_dim))
+        
+        self.autoencoder.append(nn.Linear(hidden_dim, num_nodes))
+
+        self.jump = nn.Linear(num_layers * hidden_dim, num_classes)
+
+        self.v = 1
+        self.cluster_layer = Parameter(torch.Tensor(n_clusters, hidden_dim))
+        torch.nn.init.xavier_normal_(self.cluster_layer.data)
+
+    def forward(self, b, x, edge_index):
+        xs = []
+        for i in range(len(self.convs)):
+            x = self.convs[i](x, edge_index)
+            x = self.bns[i](x)
+            x = F.relu(x)
+            self.node_embedding = x
+            xs.append(x)
+
+            b = self.autoencoder[i](b)
+            x = x + b
+            self.latent_encoding = b
+
+        for i in range(len(self.autoencoder)-len(self.convs)):
+            b = self.autoencoder[i+len(self.convs)](b)
+
+        x = torch.cat(xs, dim=1)
+        x = self.jump(x)
+
+
+        return F.log_softmax(x, dim=-1), b
+
+    def compute_reconstruction_loss(self, modularity_matrix, b):
+        loss = torch.norm(b - modularity_matrix, p='fro') ** 2
+        return loss
+    
+    def compute_kl_loss(self):
+        # 将 Z 转换为对数概率分布（log_softmax），符合KL散度的计算需求
+        Z_log_prob = F.log_softmax(self.latent_encoding, dim=-1)
+        
+        # 将 H 转换为概率分布（softmax）
+        H_prob = F.softmax(self.node_embedding, dim=-1)
+        
+        # 计算 KL 散度
+        kl_div = F.kl_div(Z_log_prob, H_prob, reduction='batchmean')
+        return kl_div
+
+    def compute_t_loss(self):
+
+        q = 1.0 / (1.0 + torch.sum(torch.pow(self.latent_encoding.unsqueeze(1) - self.cluster_layer, 2), 2) / self.v)
+        q = q.pow((self.v + 1.0) / 2.0)
+        q = (q.t() / torch.sum(q, 1)).t()
+
+        p = target_distribution(q)
+
+        kl_loss = F.kl_div(q.log(), p, reduction='batchmean')
+
+        return kl_loss
+
+    def get_node_embedding(self):
+        return self.node_embedding
+
+
+def get_model(model_opt, nfeat, nsample, nclass, nhid=0, dropout=0, cuda=True):
     if model_opt == "GCN":
         # model = GCN_Classifier(nfeat=nfeat,
         #             nhid=nhid,
@@ -287,14 +429,25 @@ def get_model(model_opt, nfeat, nclass, nhid=0, dropout=0, cuda=True):
         # model = GIN(num_features=nfeat,
         #             num_classes=nclass)
         
-        model = GIN_adv(num_features=nfeat,
-                    num_classes=nclass)
+        # current best
+        # model = GIN_adv(num_features=nfeat,
+        #             num_classes=nclass)
         
+        model = tGCN(num_features=nfeat,
+                    num_classes=nclass,
+                    num_nodes=nsample)
+
         # model = Net(num_features=nfeat,
         #             num_classes=nclass)
 
         # model = GAT(num_features=nfeat,
         #             num_classes=nclass)
+    elif model_opt == 'GCN_update':
+        model = GIN_adv(num_features=nfeat,
+                    num_classes=nclass)
+
+    elif model_opt == 'distance_based':
+        model = distance_based(nfeat=nfeat, nembed=nhid, nclass=nclass)
 
     if cuda: model.cuda()
     return model

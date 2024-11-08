@@ -1,0 +1,169 @@
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:64: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  src = src.to_sparse_csr()
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch_geometric/utils/_spmm.py:60: UserWarning: Converting sparse tensor to CSR format for more efficient processing. Consider converting your sparse tensor to CSR format beforehand to avoid repeated conversion (got 'torch.sparse_coo')
+  warnings.warn(f"Converting sparse tensor to CSR format for more "
+start loading J01Network
+start constructing adj
+tensor(indices=tensor([[   8,    8,   21,  ..., 9423, 9423, 9423],
+                       [2170, 5213, 1474,  ..., 9418, 9419, 9421]]),
+       values=tensor([0.5000, 0.5000, 0.2500,  ..., 0.3333, 0.3333, 0.3333]),
+       device='cuda:0', size=(9424, 9424), nnz=181292, layout=torch.sparse_coo)
+start loading features
+start loading labels
+self.labels: (tensor([0, 0, 0,  ..., 0, 1, 0], device='cuda:0'), torch.Size([9424]))
+self.adj: tensor(indices=tensor([[   8,    8,   21,  ..., 9423, 9423, 9423],
+                       [2170, 5213, 1474,  ..., 9418, 9419, 9421]]),
+       values=tensor([0.5000, 0.5000, 0.2500,  ..., 0.3333, 0.3333, 0.3333]),
+       device='cuda:0', size=(9424, 9424), nnz=181292, layout=torch.sparse_coo)
+self.feature: (tensor([[2.9971e-01, 6.0465e-02, 3.8314e-03,  ..., 6.8966e-02, 7.1024e-02,
+         8.2219e-01],
+        [1.3132e-01, 4.6512e-02, 7.6628e-03,  ..., 7.2464e-02, 7.0725e-02,
+         8.4524e-01],
+        [3.4525e-01, 4.6512e-02, 2.5543e-03,  ..., 7.9646e-02, 5.8153e-02,
+         8.5975e-01],
+        ...,
+        [0.0000e+00, 0.0000e+00, 1.2771e-03,  ..., 2.2727e-01, 4.6209e-02,
+         8.7654e-01],
+        [2.6476e-04, 4.6512e-03, 4.7254e-02,  ..., 3.7037e-02, 5.9044e-02,
+         8.9359e-01],
+        [0.0000e+00, 0.0000e+00, 0.0000e+00,  ..., 2.2727e-01, 1.2836e-03,
+         8.7665e-01]], device='cuda:0'), torch.Size([9424, 10]))
+self.idx_test is 5862, self.idx_non_test is 2512
+finished loading dataset
+current seed is 300
+len(idx_non_test) is 2512
+len(idx_non_test): 2497
+acc_val: 0.7000000000000001
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+-------------initial results------------
+micro_val: 0.7000, macro_val: 0.4118
+strategy:  uncertainty
+acc_val: 0.7000000000000001
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 10
+preds.shape: (5862,), labels.shape: (5862,)
+preds.shape: (8349,), labels.shape: (8349,)
+f1_test: 0.0, recall_test: 0.0, precision_test: 0.0
+f1_test_all: 0.0, recall_test_all: 0.0, precision_test_all: 0.0
+f1_val_isr: 0.0
+f1_test_isr: 0.0
+acc_val: 0.7000000000000001
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 20
+preds.shape: (5862,), labels.shape: (5862,)
+preds.shape: (8339,), labels.shape: (8339,)
+f1_test: 0.0, recall_test: 0.0, precision_test: 0.0
+f1_test_all: 0.0, recall_test_all: 0.0, precision_test_all: 0.0
+f1_val_isr: 0.0
+f1_test_isr: 0.0
+acc_val: 0.7000000000000001
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 30
+preds.shape: (5862,), labels.shape: (5862,)
+preds.shape: (8329,), labels.shape: (8329,)
+f1_test: 0.0, recall_test: 0.0, precision_test: 0.0
+f1_test_all: 0.0, recall_test_all: 0.0, precision_test_all: 0.0
+f1_val_isr: 0.0
+f1_test_isr: 0.0
+acc_val: 0.7000000000000001
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.0
+the number of labels is 40
+preds.shape: (5862,), labels.shape: (5862,)
+preds.shape: (8319,), labels.shape: (8319,)
+f1_test: 0.0030257186081694403, recall_test: 0.0015151515151515152, precision_test: 1.0
+f1_test_all: 0.0, recall_test_all: 0.0, precision_test_all: 0.0
+f1_val_isr: 0.0
+f1_test_isr: 0.0
+acc_val: 0.8
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.5
+the number of labels is 50
+preds.shape: (5862,), labels.shape: (5862,)
+preds.shape: (8309,), labels.shape: (8309,)
+f1_test: 0.2663378545006165, recall_test: 0.16363636363636364, precision_test: 0.7152317880794702
+f1_test_all: 0.24020442930153324, recall_test_all: 0.14521112255406798, precision_test_all: 0.6945812807881774
+f1_val_isr: 0.5
+f1_test_isr: 0.24020442930153324
+acc_val: 0.8
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.5
+the number of labels is 60
+preds.shape: (5862,), labels.shape: (5862,)
+preds.shape: (8299,), labels.shape: (8299,)
+f1_test: 0.26737967914438504, recall_test: 0.1893939393939394, precision_test: 0.45454545454545453
+f1_test_all: 0.24137931034482762, recall_test_all: 0.16649431230610134, precision_test_all: 0.43869209809264303
+f1_val_isr: 0.5
+f1_test_isr: 0.24137931034482762
+acc_val: 0.8
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.5
+the number of labels is 70
+preds.shape: (5862,), labels.shape: (5862,)
+preds.shape: (8289,), labels.shape: (8289,)
+f1_test: 0.2773722627737226, recall_test: 0.17272727272727273, precision_test: 0.7037037037037037
+f1_test_all: 0.24196277495769883, recall_test_all: 0.1483402489626556, precision_test_all: 0.6559633027522935
+f1_val_isr: 0.5
+f1_test_isr: 0.24196277495769883
+acc_val: 0.8
+preds.shape: (10,), labels.shape: (10,)
+f1_val_isr: 0.5
+the number of labels is 80
+preds.shape: (5862,), labels.shape: (5862,)
+preds.shape: (8279,), labels.shape: (8279,)
+f1_test: 0.46741154562383613, recall_test: 0.3803030303030303, precision_test: 0.606280193236715
+f1_test_all: 0.4400785854616896, recall_test_all: 0.3510971786833856, precision_test_all: 0.5894736842105263
+f1_val_isr: 0.5
+f1_test_isr: 0.4400785854616896
+Traceback (most recent call last):
+  File "run_baselines.py", line 602, in <module>
+    val_dict, test_dict, classes_dict, cur_AL_time = wrapper.run(args.strategy, num_labeled_list=num_labeled_list,
+  File "run_baselines.py", line 514, in run
+    model, acc_val, micro_val, macro_val, train_time, f1_val, recall_val, precision_val = train_GCN(model, self.adj, selected_nodes, idx_val, self.features,
+  File "run_baselines.py", line 226, in train_GCN
+    loss_train.backward(retain_graph=True)
+  File "/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch/_tensor.py", line 525, in backward
+    torch.autograd.backward(
+  File "/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch/autograd/__init__.py", line 267, in backward
+    _engine_run_backward(
+  File "/data1/jianweiw/env_conda/imputation/lib/python3.8/site-packages/torch/autograd/graph.py", line 744, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+KeyboardInterrupt

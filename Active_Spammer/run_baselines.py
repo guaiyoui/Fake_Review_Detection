@@ -22,6 +22,9 @@ from torch_geometric.data import HeteroData
 from torch_geometric.utils import dropout_adj
 import matplotlib.pyplot as plt
 import psgd
+import warnings
+
+warnings.filterwarnings("ignore", category=UserWarning)
 
 # Arguments
 args = get_citation_args()
@@ -179,35 +182,8 @@ def train_GCN(model, adj, selected_nodes, val_nodes,
     should_stop = False
     stopping_step = 0
 
-    # preconditioner = psgd.KFAC(
-    #     model, 
-    #     eps=0.01, 
-    #     sua=False, 
-    #     pi=False, 
-    #     update_freq=50,
-    #     alpha=1.,
-    #     constraint_norm=False
-    # )
     gamma = 2.0
     for epoch in range(epochs):
-        # lam = (float(epoch)/float(epochs))**gamma if gamma is not None else 0.
-        # model.train()
-        # optimizer.zero_grad()
-        # output = model(features, adj)
-        # label = output.max(1)[1]
-        # label[selected_nodes] = train_labels
-        # label.requires_grad = False
-        
-        # loss = F.nll_loss(output[selected_nodes], label[selected_nodes])
-        
-        # training_mask = torch.ones(output.size(0), dtype=torch.bool)
-        # training_mask[selected_nodes] = False
-        # loss += lam * F.nll_loss(output[training_mask], label[training_mask])
-        
-        # loss.backward(retain_graph=True)
-        # if preconditioner:
-        #     preconditioner.step(lam=lam)
-        # optimizer.step()
 
         model.train()
         optimizer.zero_grad()
@@ -235,51 +211,46 @@ def train_GCN(model, adj, selected_nodes, val_nodes,
         output = output[val_nodes, :]
         acc_val = accuracy(output, val_labels)
         micro_val, macro_val = f1(output, val_labels)
-        print('acc_val: {}'.format(acc_val))
+        print('macro_val: {}'.format(macro_val))
         f1_val, recall_val, precision_val = f1_isr(output, val_labels)
         print('f1_val_isr: {}'.format(f1_val))
     return model, acc_val, micro_val, macro_val, train_time, f1_val, recall_val, precision_val
 
-def test_GCN(model, adj, test_mask, features, test_labels, all_test_labels, all_test_idx, test_idx=None, save_name=None, dataset_name=None, sample_global=False):
+def test_GCN(model, adj, features, test_mask, test_labels, all_test_idx, all_test_labels, save_name=None, dataset_name=None, sample_global=False):
     model.eval()
     output_all = model(features, adj)
 
-    if test_idx is not None:
-        output_test = output_all[test_idx, :]
-        output_test_preds = output_test.max(1)[1]
-        if sample_global:
-            path = "./spammer_results/"+dataset_name+"/"+save_name+".txt"
-        else:
-            path = "./spammer_results/"+dataset_name+"/"+save_name+"_sample_global.txt"
+    output_test_all = output_all[all_test_idx, :]
+    output_test_all_preds = output_test_all.max(1)[1]
+    if sample_global:
+        path = "./spammer_results_64/"+dataset_name+"/"+save_name+"_all_sample_global.txt"
+    else:
+        path = "./spammer_results_64/"+dataset_name+"/"+save_name+"_all.txt"
 
-        with open(path, 'w') as file:
-            for i, pred in zip(test_idx, output_test_preds):
-                file.write(f'{i} {pred}\n')
+    with open(path, 'w') as file:
+        for i, pred in zip(all_test_idx, output_test_all_preds):
+            file.write(f'{i} {pred}\n')
 
-        output_test_all = output_all[all_test_idx, :]
-        output_test_all_preds = output_test_all.max(1)[1]
-        if sample_global:
-            path = "./spammer_results/"+dataset_name+"/"+save_name+"_all.txt"
-        else:
-            path = "./spammer_results/"+dataset_name+"/"+save_name+"_all_sample_global.txt"
-        
-        with open(path, 'w') as file:
-            for i, pred in zip(all_test_idx, output_test_all_preds):
-                file.write(f'{i} {pred}\n')
+    output_in_test = output_all[test_mask, :]
+    output_in_test_preds = output_in_test.max(1)[1]
+    if sample_global:
+        path = "./spammer_results_64/"+dataset_name+"/"+save_name+"_sample_global.txt"
+    else:
+        path = "./spammer_results_64/"+dataset_name+"/"+save_name+".txt"
+    
+    with open(path, 'w') as file:
+        for i, pred in zip(test_mask, output_in_test_preds):
+            file.write(f'{i} {pred}\n')
+    
+    micro_test_all, macro_test_all = f1(output_test_all, all_test_labels)
+    f1_test_all, recall_test_all, precision_test_all = f1_isr(output_test_all, all_test_labels)
 
-    output = output_all[test_mask, :]
-    acc_test = accuracy(output, test_labels)
-    micro_test, macro_test = f1(output, test_labels)
+    micro_test, macro_test = f1(output_in_test, test_labels)
+    f1_test, recall_test, precision_test = f1_isr(output_in_test, test_labels)
 
-    f1_test, recall_test, precision_test = f1_isr(output, test_labels)
+    print(f'macro_test_all: {macro_test_all}, f1_test_all: {f1_test_all}, macro_test: {macro_test}, f1_test: {f1_test}')
 
-    output_test = output_all[all_test_idx, :]
-    f1_test_all, recall_test_all, precision_test_all = f1_isr(output_test, all_test_labels)
-    print(f'f1_test: {f1_test}, recall_test: {recall_test}, precision_test: {precision_test}')
-    print(f'f1_test_all: {f1_test_all}, recall_test_all: {recall_test_all}, precision_test_all: {precision_test_all}')
-
-    # return acc_test, micro_test, macro_test, f1_test, recall_test, precision_test
-    return acc_test, micro_test, macro_test, f1_test_all, recall_test_all, precision_test_all
+    return macro_test_all, f1_test_all, macro_test, f1_test
 
 
 def ensure_nonrepeat(idx_train, selected_nodes):
@@ -330,7 +301,7 @@ def augment_feature(feature, nx_G):
     result = np.column_stack((feature, np.array(augmented_mod_feat), np.array(augmented_core_feat)))
 
     return result
-    
+
 
 class run_wrapper():
     def __init__(self, dataset, normalization, cuda):
@@ -345,6 +316,16 @@ class run_wrapper():
             self.nx_G = nx.Graph()
             self.nx_G.add_edges_from(graph_data)
             
+            # 获取最大的节点编号
+            max_node = max(graph_data.max(), graph_data.max())  # 确保编号从0到max_node
+
+            # 手动添加孤立节点，确保包含所有节点
+            for node in range(max_node + 1):
+                if node not in self.nx_G:
+                    self.nx_G.add_node(node)
+
+            self.graph = self.nx_G
+
             print("start constructing adj")
             edge_tensor = torch.from_numpy(graph_data).long()
             indices = edge_tensor.t().contiguous()
@@ -373,7 +354,6 @@ class run_wrapper():
             labels_data = labels_data.to_numpy()
             self.labels = torch.from_numpy(labels_data[:, 1]).cuda()
             
-
             training_data = np.loadtxt(args.data_path+"Training_Testing/"+args.test_percents+"/train_4.csv", delimiter=' ', dtype=int)
             testing_data = np.loadtxt(args.data_path+"Training_Testing/"+args.test_percents+"/test_4.csv", delimiter=' ', dtype=int)
     
@@ -410,6 +390,9 @@ class run_wrapper():
             # nx_G = nx.from_dict_of_lists(self.graph)
             nx_G = self.nx_G
             PR_scores = nx.pagerank(nx_G, alpha=0.85)
+            # print('PR_scores: ', PR_scores.keys())
+            # print(len(PR_scores.keys()))
+            # print(nx_G.number_of_nodes())
             # print('PR_scores: ', PR_scores)
             nx_nodes = nx.nodes(nx_G)
             original_weights = {}
@@ -440,10 +423,12 @@ class run_wrapper():
         if args.sample_global:
             all_test_idx = list(set(self.idx_test).union(set(pool)))
             pool = list(set(self.idx_test.cpu().numpy().tolist()).union(set(pool)))
+            test_idx_in_test = list(set(self.idx_test.cpu().numpy().tolist()))
         else:
-            all_test_idx = list(set(self.idx_test))
+            all_test_idx = list(set(self.idx_test).union(set(pool)))
+            test_idx_in_test = list(set(self.idx_test.cpu().numpy().tolist()))
 
-        if args.model == 'GCN':
+        if args.model == 'GCN_update':
             args.lr = 0.01
             model, acc_val, micro_val, macro_val, train_time, f1_val, recall_val, precision_val = train_GCN(model, self.adj, selected_nodes, idx_val, self.features,
                                                                                 self.labels[selected_nodes],
@@ -456,7 +441,7 @@ class run_wrapper():
         print('strategy: ', strategy)
         cur_num = 0
         val_results = {'acc': [], 'micro': [], 'macro': [], 'f1': [], "recall":[], "precision":[]}
-        test_results = {'acc': [], 'micro': [], 'macro': [], 'f1': [], "recall":[], "precision":[]}
+        test_results = {'macro_test_all': [], 'f1_test_all': [], 'macro_test': [], 'f1_test': []}
 
         uncertainty_results = {}
         if strategy == 'rw':
@@ -480,7 +465,7 @@ class run_wrapper():
             if strategy == 'random':
                 idx_train = query_random(budget, pool)
             elif strategy == 'uncertainty':
-                if args.model == 'GCN':
+                if args.model == 'GCN_update':
                     idx_train = query_uncertainty_GCN(model, self.adj, self.features, budget, pool)
                 else:
                     idx_train = query_uncertainty(model, self.features, budget, pool)
@@ -505,50 +490,42 @@ class run_wrapper():
             pool = list(set(pool) - set(idx_train))
 
             if args.sample_global:
+                print("============sample global=======")
                 all_test_idx = list(set(pool))
+                test_idx_in_test = list(set(self.idx_test.cpu().numpy().tolist()).intersection(set(pool)))
+                print(len(test_idx_in_test))
+                print(len(all_test_idx))
             else:
-                all_test_idx = list(set(self.idx_test))
+                print("============sample only in training=======")
+                test_idx_in_test = list(set(self.idx_test.cpu().numpy().tolist()))
+                all_test_idx = list(set(pool).union(test_idx_in_test))
+                print(len(test_idx_in_test))
+                print(len(all_test_idx))
             
 
-            if args.model == 'GCN':
+            if args.model == 'GCN_update':
                 model, acc_val, micro_val, macro_val, train_time, f1_val, recall_val, precision_val = train_GCN(model, self.adj, selected_nodes, idx_val, self.features,
                                                                              self.labels[selected_nodes],
                                                                              self.labels[idx_val],
                                                                              args.epochs, args.weight_decay, args.lr,
                                                                              args.dropout)
             print(f"the number of labels is {num_labeled_list[i]}")
-            if args.model == 'GCN':
-                acc_test, micro_test, macro_test, f1_test, recall_test, precision_test = test_GCN(model, self.adj, self.idx_test, self.features, self.labels[self.idx_test], self.labels[all_test_idx], all_test_idx, test_idx=self.idx_test_ori, save_name=args.test_percents, dataset_name=args.dataset, sample_global=args.sample_global)
+            if args.model == 'GCN_update':
+                macro_test_all, f1_test_all, macro_test, f1_test = test_GCN(model, self.adj, self.features, test_idx_in_test, self.labels[test_idx_in_test], all_test_idx, self.labels[all_test_idx], save_name=args.test_percents, dataset_name=args.dataset, sample_global=args.sample_global)
             
 
             print('f1_val_isr: {}'.format(f1_val))
             print('f1_test_isr: {}'.format(f1_test))
 
-            acc_val = round(acc_val, 4)
-            acc_test = round(acc_test, 4)
-            micro_val = round(micro_val, 4)
-            micro_test = round(micro_test, 4)
-            macro_val = round(macro_val, 4)
             macro_test = round(macro_test, 4)
-            f1_val = round(f1_val, 4)
             f1_test = round(f1_test, 4)
-            recall_val = round(recall_val, 4)
-            recall_test = round(recall_test, 4)
-            precision_val = round(precision_val)
-            precision_test = round(precision_test)
+            macro_test_all = round(macro_test_all, 4)
+            f1_test_all = round(f1_test_all, 4)
 
-            val_results['acc'].append(acc_val)
-            val_results['micro'].append(micro_val)
-            val_results['macro'].append(macro_val)
-            val_results['f1'].append(f1_val)
-            val_results['recall'].append(recall_val)
-            val_results['precision'].append(precision_val)
-            test_results['acc'].append(acc_test)
-            test_results['micro'].append(micro_test)
-            test_results['macro'].append(macro_test)
-            test_results['f1'].append(f1_test)
-            test_results['recall'].append(recall_test)
-            test_results['precision'].append(precision_test)
+            test_results['macro_test_all'].append(macro_test_all)
+            test_results['f1_test_all'].append(f1_test_all)
+            test_results['macro_test'].append(macro_test)
+            test_results['f1_test'].append(f1_test)
 
         print('AL Time: {}s'.format(time_AL))
         return val_results, test_results, get_classes_statistic(self.labels[selected_nodes].cpu().numpy()), time_AL
@@ -575,12 +552,10 @@ if __name__ == '__main__':
                    'recall': [[] for _ in range(num_interval)],
                    'precision': [[] for _ in range(num_interval)]}
 
-    test_results = {'micro': [[] for _ in range(num_interval)],
-                    'macro': [[] for _ in range(num_interval)],
-                    'acc': [[] for _ in range(num_interval)],
-                    'f1': [[] for _ in range(num_interval)],
-                    'recall': [[] for _ in range(num_interval)],
-                    'precision': [[] for _ in range(num_interval)]}
+    test_results = {'macro_test_all': [[] for _ in range(num_interval)],
+                    'f1_test_all': [[] for _ in range(num_interval)],
+                    'macro_test': [[] for _ in range(num_interval)],
+                    'f1_test': [[] for _ in range(num_interval)]}
     if args.file_io:
         input_file = 'random_seed_10.txt'
         with open(input_file, 'r') as f:
@@ -605,43 +580,23 @@ if __name__ == '__main__':
         for metric in ['micro', 'macro', 'acc', 'f1', 'recall', 'precision']:
             for j in range(len(val_dict[metric])):
                 val_results[metric][j].append(val_dict[metric][j])
+        
+        for metric in ['macro_test_all', 'f1_test_all', 'macro_test', 'f1_test']:
+            for j in range(len(test_dict[metric])):
                 test_results[metric][j].append(test_dict[metric][j])
 
         total_AL_time += cur_AL_time
 
-    val_avg_results = {'micro': [0. for _ in range(num_interval)],
-                       'macro': [0. for _ in range(num_interval)],
-                       'acc': [0. for _ in range(num_interval)],
-                       'f1': [0. for _ in range(num_interval)],
-                       'recall': [0. for _ in range(num_interval)],
-                       'precision': [0. for _ in range(num_interval)]}
-    test_avg_results = {'micro': [0. for _ in range(num_interval)],
-                    'macro': [0. for _ in range(num_interval)],
-                    'acc': [0. for _ in range(num_interval)],
-                    'f1': [0. for _ in range(num_interval)],
-                    'recall': [0. for _ in range(num_interval)],
-                    'precision': [0. for _ in range(num_interval)]}
-    val_std_results = {'micro': [0. for _ in range(num_interval)],
-                        'macro': [0. for _ in range(num_interval)],
-                        'acc': [0. for _ in range(num_interval)],
-                        'f1': [0. for _ in range(num_interval)],
-                        'recall': [0. for _ in range(num_interval)],
-                        'precision': [0. for _ in range(num_interval)]}
-    test_std_results = {'micro': [0. for _ in range(num_interval)],
-                        'macro': [0. for _ in range(num_interval)],
-                        'acc': [0. for _ in range(num_interval)],
-                        'f1': [0. for _ in range(num_interval)],
-                        'recall': [0. for _ in range(num_interval)],
-                        'precision': [0. for _ in range(num_interval)]}
-    for metric in ['micro', 'macro', 'acc', 'f1', 'recall', 'precision']:
-        for j in range(len(val_results[metric])):
-            val_avg_results[metric][j] = np.mean(val_results[metric][j])
+    test_avg_results = {'macro_test_all': [0. for _ in range(num_interval)],
+                    'f1_test_all': [0. for _ in range(num_interval)],
+                    'macro_test': [0. for _ in range(num_interval)],
+                    'f1_test': [0. for _ in range(num_interval)]}
+
+    for metric in ['macro_test_all', 'f1_test_all', 'macro_test', 'f1_test']:
+        for j in range(len(test_results[metric])):
             test_avg_results[metric][j] = np.mean(test_results[metric][j])
-            val_std_results[metric][j] = np.std(val_results[metric][j])
-            test_std_results[metric][j] = np.std(test_results[metric][j])
 
-
-    if args.model == 'GCN':
+    if args.model == 'GCN_update':
         dir_path = os.path.join('./10splits_10runs_results', args.dataset)
     else:
         dir_path = os.path.join('./results', args.dataset)
@@ -653,11 +608,19 @@ if __name__ == '__main__':
         f.write(f'Budget list: {num_labeled_list}\n')
         f.write(f'learning rate: {args.lr}, epoch: {args.epochs}, weight decay: {args.weight_decay}, hidden: {args.hidden}\n')
         f.write(f'50runs using seed.txt\n')
-        for metric in ['micro', 'macro', 'acc', 'f1', 'recall', 'precision']:
-            f.write("Test_{}_f1 {}\n".format(metric, " ".join("{:.4f}".format(i) for i in test_avg_results[metric])))
-            f.write("Test_{}_std {}\n".format(metric, " ".join("{:.4f}".format(i) for i in test_std_results[metric])))
+        for metric in ['macro_test_all', 'f1_test_all', 'macro_test', 'f1_test']:
+            f.write("Test_{}_macro {}\n".format(metric, " ".join("{:.4f}".format(i) for i in test_results[metric][0])))
+        
 
         f.write("Average AL_Time: {}s\n".format(total_AL_time / len(seeds)))
     
-    plot(num_labeled_list, test_avg_results['f1'], args.save_name+"_f1_isr")
-    
+    if args.sample_global:
+        plot(num_labeled_list, test_avg_results['macro_test_all'], args.test_percents+args.save_name+"macro_test_all_global")
+        plot(num_labeled_list, test_avg_results['f1_test_all'], args.test_percents+args.save_name+"f1_test_all_global")
+        plot(num_labeled_list, test_avg_results['macro_test'], args.test_percents+args.save_name+"macro_test_global")
+        plot(num_labeled_list, test_avg_results['f1_test'], args.test_percents+args.save_name+"f1_test_global")
+    else:
+        plot(num_labeled_list, test_avg_results['macro_test_all'], args.test_percents+args.save_name+"macro_test_all")
+        plot(num_labeled_list, test_avg_results['f1_test_all'], args.test_percents+args.save_name+"f1_test_all")
+        plot(num_labeled_list, test_avg_results['macro_test'], args.test_percents+args.save_name+"macro_test")
+        plot(num_labeled_list, test_avg_results['f1_test'], args.test_percents+args.save_name+"f1_test")
