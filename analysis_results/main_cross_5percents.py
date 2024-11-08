@@ -84,7 +84,7 @@ for percent in ["50percent", "30percent", "10percent", "5percent"]:
         label_isr.dropna(inplace=True)
         label_our = label_ori.merge(result_our30_all, on='user_no', how='left')
         label_our.dropna(inplace=True)
-        print("\n xxx The result of separate part of test sets: ")
+        print("\n xxx The result of separate part of test sets (case 2.2): ")
         # print('ISR')
         # print(classification_report(label_isr['label'], label_isr['isr_pred']))
         # print('Our30')
@@ -100,7 +100,7 @@ for percent in ["50percent", "30percent", "10percent", "5percent"]:
         label.dropna(inplace=True)
 
 
-        print("\n xxx The result of intersection part of test sets: ")
+        print("\n xxx The result of intersection part of test sets (case 2.1): ")
         # #report the prediction performance
         # print('ISR')
         # print(classification_report(label['label'], label['isr_pred']))
